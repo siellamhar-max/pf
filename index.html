@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Portfolio Website</title>
     <style>
+        /* General Setup - Dark Theme */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0a0a0a; 
+            color: #fdfafa; 
+            overflow: hidden; 
+        }
+
+        /* Animations */
         @keyframes float {
     0%, 100% { transform: translateY(0px) rotate(0deg); }
     33% { transform: translateY(-20px) rotate(120deg); }
@@ -15,124 +25,15 @@
     0%, 100% { opacity: 0.4; filter: blur(40px); }
     50% { opacity: 0.7; filter: blur(60px); }
 }
-
-.background {
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    left: 0;
-    overflow: hidden;
-    z-index: -1;
-    background: radial-gradient(ellipse at top, #301a38 0%, #140a1a 40%, #000000 100%);
-}
-
-.orb {
-    position: absolute;
-    border-radius: 50%;
-    animation: float 15s ease-in-out infinite, glow 8s ease-in-out infinite;
-}
-
-.orb:nth-child(1) {
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(254, 14, 238, 0.3), transparent 70%);
-    top: -10%;
-    left: -10%;
-    animation-delay: 0s;
-}
-
-.orb:nth-child(2) {
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(112, 48, 134, 0.25), transparent 70%);
-    top: 30%;
-    right: -5%;
-    animation-delay: -5s;
-}
-
-.orb:nth-child(3) {
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(65, 33, 99, 0.2), transparent 70%);
-    bottom: -20%;
-    left: 20%;
-    animation-delay: -10s;
-}
-
-/* Starfield */
-.stars {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-}
-
-.star {
-    position: absolute;
-    width: 2px;
-    height: 2px;
-    background: white;
-    border-radius: 50%;
-    animation: twinkle 3s ease-in-out infinite;
-}
-
-@keyframes twinkle {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 1; }
-}
-
-.star:nth-child(1) { top: 20%; left: 30%; animation-delay: 0s; }
-.star:nth-child(2) { top: 40%; left: 70%; animation-delay: 1s; }
-.star:nth-child(3) { top: 60%; left: 20%; animation-delay: 2s; }
-.star:nth-child(4) { top: 80%; left: 80%; animation-delay: 0.5s; }
-.star:nth-child(5) { top: 15%; left: 85%; animation-delay: 1.5s; }
-.star:nth-child(6) { top: 70%; left: 50%; animation-delay: 2.5s; }
-
-/* Mobile Menu */
-.menu-toggle {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    cursor: pointer;
-    z-index: 1001;
-}
-
-.menu-toggle span {
-    width: 28px;
-    height: 3px;
-    background: white;
-    border-radius: 3px;
-    transition: all 0.3s ease;
-}
-
-
- /* General Setup - Dark Theme */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: #0a0a0a; 
-            color: #fdfafa; 
-            overflow: hidden; 
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes slideInUp {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
         .animate-in {
             animation: fadeIn 0.5s ease-out, slideInUp 0.6s ease-out;
         }
 
         /* Navigation Bar - Dark Tech Look */
         nav {
-            width: 100%; height: 65px; background: #1d0118;
+            width: 100%; height: 65px; background: #0a0a0a;
             display: flex; justify-content: center; align-items: center; gap: 10px; 
-            box-shadow: 0 0 10px rgba(107, 5, 116, 0.194); 
+            box-shadow: 0 0 10px rgba(208, 14, 226, 0.5); 
             z-index: 10; 
             position: relative; 
         }
@@ -147,9 +48,9 @@
             cursor: pointer; 
         }
         nav a:hover {
-            background: rgba(98, 0, 255, 0.1);
-            border-color: #c416b3;
-            color: #df46f3;
+            background: rgba(0, 255, 255, 0.1);
+            border-color: #2816c4;
+            color: #46f3f3;
         }
         .nav-active {
             background: rgba(212, 40, 189, 0.2);
@@ -237,158 +138,89 @@
 
 
         /* HOME PAGE Layout (About Me) - MODIFIED */
-        /* =============== MAIN CONTAINER =============== */
-.main-container {
-    display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    height: 100vh;
-    padding-top: 80px;
-    gap: 2rem;
-    max-width: 1800px;
-    margin: 0 auto;
-    padding-left: 3%;
-    padding-right: 3%;
-}
+        #home {
+            justify-content: space-between; /* To push button container to the bottom */
+            align-items: center; 
+        }
 
-/* =============== LEFT SECTION =============== */
-.left-section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 1rem;
-    padding: 1rem 0;
-}
+        .personal-name {
+            font-size: 30px;
+            color: #bf02c5;
+            margin-bottom: 20px;
+            flex-shrink: 0;
+            padding-top: 10px;
+        }
 
-.profile-showcase {
-    display: flex;
-    justify-content: center;
-    animation: fadeInUp 0.8s ease-out;
-}
+        .home-content {
+            display: flex;
+            flex-direction: column; 
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 1000px; 
+            padding: 0 20px; 
+            gap: 20px; 
+            flex-grow: 1;
+        }
 
-.profile-image-main {
-    width: 100%;
-    max-width: 400px;
-    height: auto;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    border: 5px solid rgba(248, 44, 200, 0.4);
-    box-shadow: 0 25px 70px rgba(243, 20, 228, 0.5);
-    transition: all 0.4s ease;
-    object-fit: cover;
-}
+        @media (min-width: 768px) {
+            .home-content {
+                flex-direction: row; 
+                justify-content: center; 
+                align-items: flex-start; 
+                gap: 50px; 
+            }
+        }
 
-.profile-image-main:hover {
-    transform: scale(1.08) rotate(3deg);
-    border-color: #b42cf8;
-    box-shadow: 0 30px 90px rgba(207, 44, 248, 0.7);
-}
+        /* Profile Picture Frame - High-Tech Circular (SIZE INCREASED) */
+        .profile-frame {
+            width: 280px; height: 280px; /* INCREASED SIZE */
+            border: 3px solid #bf02c5;
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            color: #e208e2; font-weight: 700;
+            background: rgba(0, 255, 255, 0.05);
+            box-shadow: 0 0 15px #b305b9;
+            flex-shrink: 0;
+            overflow: hidden;
+            margin-bottom: 0; 
+        }
+        .profile-frame img {
+             width: 100%; height: 100%;
+             object-fit: cover; 
+             border-radius: 50%;
+        }
+        
+        /* Text Bubble Styling */
+        .text-bubble {
+            background: rgba(248, 8, 208, 0.7); 
+            border-radius: 15px;
+            padding: 25px;
+            color: #ffffff;
+            max-width: 600px; 
+            box-shadow: 0 0 20px rgba(236, 6, 121, 0.3); 
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-grow: 1; 
+        }
 
-.personal-info {
-    text-align: center;
-    animation: fadeInUp 0.8s ease-out 0.2s backwards;
-}
-
-.name-title {
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    font-weight: 900;
-    background: linear-gradient(135deg, #ffffff 0%, #a78bfa 50%, #622cf8 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    margin-bottom: 0.5rem;
-}
-
-.title-text {
-    font-size: clamp(1rem, 2vw, 1.3rem);
-    color: rgba(255, 255, 255, 0.7);
-    margin-bottom: 1rem;
-}
-
-.location-badge {
-    display: inline-block;
-    padding: 0.6rem 1.5rem;
-    background: rgba(236, 13, 210, 0.15);
-    border: 1px solid rgba(248, 44, 245, 0.4);
-    border-radius: 50px;
-    font-size: clamp(0.9rem, 1.5vw, 1rem);
-    margin-bottom: 1rem;
-}
-
-.tagline {
-    font-size: clamp(0.95rem, 1.5vw, 1.1rem);
-    color: rgb(255, 255, 255);
-    margin-bottom: 2rem;
-    line-height: 1.6;
-}
-
-.action-buttons {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.btn {
-    padding: 0.9rem 2rem;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: 12px;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    border: none;
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, #f82ce7, #8b5cf6);
-    color: white;
-    box-shadow: 0 10px 30px rgba(245, 44, 248, 0.364)
-}
-
-.btn-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 40px rgba(197, 44, 248, 0.6);
-}
-
-/* =============== RIGHT SECTION =============== */
-.right-section {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1rem 0;
-    overflow: hidden;
-    margin-bottom: 1rem;
-}
-
-
-.biography-section {
-    flex: 1;
-    background: rgba(3, 1, 3, 0.379);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 24px;
-    padding: 2rem;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    animation: fadeInUp 0.8s ease-out 0.6s backwards;
-}
-
-.bio-title {
-    font-size: clamp(2rem, 4vw, 5rem);
-    font-weight: 800;
-    background: linear-gradient(135deg, #ffffff, #f65ce7);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    margin-bottom: 1.5rem;
-    text-align: center;
-}
-
-.bio-text{
-    font-size: 22px;
-    padding: 3rem;
-}
+        /* Changed h1 to h2 in text bubble */
+        .text-bubble h2 { 
+            font-size: 28px; 
+            color: #de36e4; 
+            margin-bottom: 15px; 
+            text-align: left; 
+        }
+        .text-bubble p { 
+            font-size: 16px; 
+            color: #f15fd9; 
+            line-height: 1.6; 
+            text-align: left; 
+            margin-bottom: 0; /* Important: Remove bottom margin */
+            flex-grow: 1; 
+        }
         
         /* Show the nav-button-container for home page */
         #home .nav-button-container {
@@ -436,14 +268,15 @@
 
         /* Card Container Styling */
         .card-container {
-            height: 100vh;
-            padding: 100px 5% 100px;
             display: flex;
             flex-direction: column;
-            max-width: 1600px;
-            margin: 0 auto;
-            overflow: hidden;
-            margin-top: -5rem;
+            gap: 10px;
+            flex-grow: 0; 
+            width: 95%;
+            max-width: 1200px; 
+            justify-content: center;
+            flex-wrap: wrap;
+            padding-bottom: 20px;
         }
         
         /* Media Query for Mobile (Single Column) */
@@ -475,10 +308,10 @@
             
             /* ACHIEVEMENTS CARD SIZING: Smaller for 5 per row, less height (FIXED) */
             .ach-card-item {
-                 width: 190px; 
-                 height: 300px; 
+                 width: 19%; 
+                 height: 150px; 
                  min-height: 90px; 
-                 max-height: 500px; 
+                 max-height: 170px; 
                  margin-bottom: 0; 
             }
             
@@ -493,15 +326,12 @@
             
             /* ACHIEVEMENTS Card Container Must allow cards to shrink and tight horizontal/vertical spacing */
             #achievements .card-container {
-                display: grid;
-                grid-template-columns: repeat(4, 1fr); /* first row = 4 cards */
-                gap: 10px;
-                width: 100%;
-                max-width: 1500px;
-                height: auto;
-                padding: 1rem;
-                place-items: center;
-                margin-top: -5rem;
+                 flex-grow: 1; 
+                 justify-content: center; 
+                 align-content: center; 
+                 padding-bottom: 0;
+                 gap: 5px 0.5%; 
+                 align-items: center; 
             }
             
             /* FAMILY Card Container for Horizontal Layout (FIXED) */
@@ -515,7 +345,7 @@
         
         /* --- EDUCATION SPECIFIC STYLES (CYAN ACCENTS) --- */
         .edu-card-item { 
-            background: #0b000e2d;
+            background: #1c1c1c;
             border-radius: 10px;
             padding: 15px;
             text-align: center;
@@ -524,7 +354,7 @@
             flex-direction: column;
             align-items: center;
             transition: transform 0.2s, box-shadow 0.2s;
-            border: 1px solid rgba(251, 0, 255, 0.3); 
+            border: 1px solid rgba(0, 255, 255, 0.3); 
             margin-left: auto;
             margin-right: auto;
         }
@@ -540,78 +370,42 @@
             flex-grow: 1;
             justify-content: center;
         }
-
-        .education-title {
-            font-size: 62px;
-            font-weight: 800;
-            color: #ffffff;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-
         .edu-level { 
             font-weight: 700; 
-            color: #ea00ff; 
-            font-size: 1.5rem; 
-            margin-bottom: 5px;
-            margin-top: -11rem; 
+            color: #00FFFF; 
+            font-size: 1.0rem; 
+            margin-bottom: 5px; 
         }
         .edu-name { 
-            margin-top: 1rem;
-            font-size: 1rem; 
-            color: #ffffff; 
+            font-size: 0.85rem; 
+            color: #b0b0b0; 
             line-height: 1.3; 
         }
         /* Icon/Logo Frame (Circular for Education) */
         .logo-frame-edu {
-            width: 100%;
-            height: 120px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 0.5rem;
-            position: relative;
-            z-index: 1;
+            width: 70px; height: 70px; 
+            border: 2px solid #555555;
+            border-radius: 50%; 
+            display: flex; justify-content: center; align-items: center;
+            color: #333333; font-size: 10px;
+            background: #dddddd;
+            flex-shrink: 0;
+            margin-top: 5px;
+            overflow: hidden;
         }
         .logo-frame-edu img {
-            max-width: 100%;
-            max-height: 100%;
-            width: auto;
-            height: auto;
-            object-fit: contain;
-            border-radius: 12px;
-            filter: drop-shadow(0 4px 12px rgba(204, 44, 248, 0.3));
-            transition: transform 0.3s ease;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
         }
 
         /* --- ACHIEVEMENTS SPECIFIC STYLES --- */
-        #achievements .ach-card-item {
-    width: 100%;
-    max-width: 250px;    /* adjust card width */
-}
-
-/* On wider screens, allow 5 cards in the second row */
-@media (min-width: 1100px) {
-    #achievements .card-container {
-        grid-template-columns: repeat(5, 1fr);
-    }
-
-    /* Force first 4 cards to only occupy first row */
-    #achievements .ach-card-item:nth-child(-n+4) {
-        grid-column: span 1;
-    }
-
-    /* Place the remaining 5 on row 2 */
-    #achievements .ach-card-item:nth-child(n+5) {
-        grid-column: span 1;
-    }
-}
         .ach-card-item { 
-            background: #22051d00;
+            background: #1c1c1c;
             border-radius: 10px;
             padding: 0; 
             text-align: left; 
-            box-shadow: 0 4px 15px rgba(50, 5, 54, 0.5);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -627,20 +421,12 @@
             transform: translateY(-3px);
             box-shadow: 0 6px 20px rgba(240, 32, 188, 0.4); 
         }
-
-        .achievements-title {
-            font-size: 62px;
-            font-weight: 800;
-            color: #ffffff;
-            margin-bottom: 10px;
-            text-align: center;
-        }
         
         /* Image Container for Achievements */
         .ach-image-container {
             width: 100%;
             overflow: hidden;
-            background: #3a0235; 
+            background: #a10c8d; 
             display: flex;
             justify-content: center;
             align-items: center;
@@ -670,16 +456,15 @@
         
         .ach-level { 
             font-weight: 700; 
-            color: #b63bcf; 
-            font-size: 1.2rem; 
+            color: #3b76cf; 
+            font-size: 0.70rem; 
             margin-bottom: 2px; 
             text-align: center; 
             line-height: 1.1;
-            margin-top: -1rem;
         }
         .ach-name { 
-            font-size: 1rem; 
-            color: #ffffff; 
+            font-size: 0.60rem; 
+            color: #b0b0b0; 
             line-height: 1.1; 
             text-align: center; 
         }
@@ -692,7 +477,7 @@
         }
 
         .family-card-item {
-            background: #32042f34;
+            background: #1c1c1c;
             border-radius: 10px;
             padding: 0; 
             text-align: left;
@@ -701,7 +486,7 @@
             flex-direction: column;
             align-items: center;
             transition: transform 0.2s, box-shadow 0.2s;
-            border: 2px solid #ea00ff; 
+            border: 2px solid #00FFFF; 
             margin-left: auto;
             margin-right: auto;
             overflow: hidden;
@@ -710,7 +495,7 @@
         }
         .family-card-item:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(255, 0, 119, 0.4);
+            box-shadow: 0 6px 20px rgba(0, 255, 255, 0.4);
         }
         
         /* Image Container for the Family Section - Enforce Fixed Aspect Ratio */
@@ -730,25 +515,16 @@
             object-fit: contain; 
         }
 
-        .family-main-title {
-            font-size: 82px;
-            font-weight: 800;
-            color: #ffffff;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-
         .family-text-content {
             padding: 15px;
-            color: #ffffff;
+            color: #b0b0b0;
             flex-grow: 1; 
             display: flex; 
             flex-direction: column;
-            text-align: center;
         }
         .family-title {
             font-weight: 700;
-            color: #c732b1; 
+            color: #32a9c7; 
             font-size: 1.1rem;
             margin-bottom: 5px;
         }
@@ -757,52 +533,9 @@
             line-height: 1.4;
             flex-grow: 1; 
         }
-
-        /* Make MY FAMILY cards larger */
-        #family .family-card-item {
-            max-width: 420px;   /* Bigger width */
-            height: 500px;      /* Taller card */
-            border-width: 3px;  /* More defined border */
-        }
-
-        /* Make the images inside bigger */
-        #family .family-image-container {
-            aspect-ratio: 4 / 3;
-            height: 55%; /* Increase image area */
-        }
-
-        /* Make text bigger and better spaced */
-        #family .family-text-content {
-            padding: 20px;
-        }
-
-        #family .family-title {
-            font-size: 1.4rem;
-        }
-
-        #family .family-description {
-            font-size: 1.05rem;
-            line-height: 1.5;
-        }
     </style>
 </head>
 <body>
-
- <!-- Animated Background -->
-    <div class="background">
-        <div class="orb"></div>
-        <div class="orb"></div>
-        <div class="orb"></div>
-        <div class="stars">
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-        </div>
-    </div>
-
     <nav>
         <a id="nav-home" onclick="showPage('home')">About Me</a>
         <a id="nav-education" onclick="showPage('education')">Education</a>
@@ -811,43 +544,22 @@
     </nav>
 
     <div class="page active" id="home">
-        <main class="main-container">
-         <div class="left-section">
-            <div class="profile-showcase fade-in">
-                <img class="profile-image-main" src="https://lh3.googleusercontent.com/pw/AP1GczPxyex_ZM1HnjC28nQjESOUETZqBjzP-5ysIp5BUaojAtn7iUmIXTOpT1xOUNXW_7F85CfCLn4dASzc--Wuc2BvqdT_zF8S54VkQH9WBJ0iYfFt-co=w2400"
+        <h1 class="personal-name">Shiela Mar Tengay</h1> 
+
+        <div class="home-content animate-in">
+            <div class="profile-frame">
+                <img src="https://lh3.googleusercontent.com/pw/AP1GczPxyex_ZM1HnjC28nQjESOUETZqBjzP-5ysIp5BUaojAtn7iUmIXTOpT1xOUNXW_7F85CfCLn4dASzc--Wuc2BvqdT_zF8S54VkQH9WBJ0iYfFt-co=w2400"
                     alt="Profile Picture"
                     onerror="this.onerror=null; this.src='https://placehold.co/280x280/333333/FFFFFF?text=Shiela+Photo';">
             </div>
-            <div class="personal-info fade-in">
-                <h1 class="name-title">SHIELA TENGAY</h1>
-                <p class="title-text">BSIT - Web Technology</p>
-                <div class="location-badge">📍 Based in the Philippines</div>
-                <p class="tagline">
-                    Student at the <strong style="color: #f65cd7;">University of the Cordilleras</strong>
+            
+            <div class="text-bubble">
+                <h2>Hi, I'm Shiela! An IT student majoring in Web Technology</h2>
+                <p>
+                    Building ideas, solving problems, and creating the future through technology. Here’s a glimpse of the milestones that shaped me. Welcome to my portfolio.
                 </p>
-            </div> 
-        </div>
-
-
-         <!-- Right Side: Biography-->
-        <div class="right-section">
-
-            <!-- Biography Section -->
-            <div class="biography-section fade-in">         
-                <h2 class="bio-title">Biography </h2>
-                <div class="bio-content-scroll">
-                    <div class="bio-text">
-                        <p>
-                            Hi, I'm Shiela! An IT student majoring in Web Technology
-                        </p>
-                        <p>
-                            Building ideas, solving problems, and creating the future through technology. Here’s a glimpse of the milestones that shaped me. Welcome to my portfolio.
-                        </p>
-                    </div>
                 </div>
-              </main>  
-
-        <!-- old code-->
+        </div>
         
         <div class="nav-button-container">
             <button class="nav-button nav-button-back" onclick="showPage('education')"><< Back</button>
@@ -857,7 +569,7 @@
 
     <div class="page" id="education">
         <div class="page-content-wrapper animate-in">
-            <h1 class="education-title">EDUCATIONAL BACKGROUND</h1>
+            <h1>EDUCATIONAL BACKGROUND</h1>
 
             <div class="card-container">
                 <div class="edu-card-item">
@@ -929,7 +641,7 @@
     </div>
 
        <div class="page" id="achievements">
-        <h1 class="achievements-title">ACHIEVEMENTS</h1>
+        <h1>ACHIEVEMENTS</h1>
         <div class="page-content-wrapper animate-in">
             <div class="card-container"> 
                 <div class="ach-card-item">
@@ -1058,7 +770,7 @@
     </div>
 
     <div class="page" id="family">
-        <h1 class="family-main-title" style="font-size: 82px;">MY FAMILY</h1>
+        <h1>MY FAMILY</h1>
         <div class="page-content-wrapper animate-in">
             <div class="card-container"> 
                 
@@ -1072,7 +784,7 @@
                     <div class="family-text-content">
                         <div class="family-title">My Mother</div>
                         <div class="family-description">
-                            Her dedication is a constant reminder of why I must keep moving forward. I hug her to honor the sacrifices and the tireless work she has made, letting the embrace speak the gratitude my words cannot fully convey.
+                            Her sacrifices and dedication are a constant reminder of why I must keep moving forward. I hug her to honor the sacrifices she has made and the tireless work she gives, letting the embrace speak the gratitude and love my words cannot fully convey.
                         </div>
                     </div>
                 </div>
@@ -1102,7 +814,7 @@
                     <div class="family-text-content">
                         <div class="family-title">My Siblings</div>
                         <div class="family-description">
-                            Bound by blood and memories, my siblings are the verses in the poem of my life. Together, we show more than just presence, but also a bond that no one can break, a connection built on love and shared memories.
+                            Bound by blood and memories, my siblings are the verses in the poem of my life. Sitting together in this photo, we show more than just presence but also a bond that no one can break, a connection built on love and shared memories.
                         </div>
                     </div>
                 </div>
