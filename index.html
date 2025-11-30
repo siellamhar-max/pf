@@ -14,30 +14,39 @@
             font-family: 'Segoe UI', sans-serif;
             background: #0a0a0a; 
             color: #fdfafa; 
-            overflow: hidden; /* Prevent body scrolling */
+            overflow: hidden; /* CRITICAL: Prevents body scrolling */
         }
         
+        /* Define fixed sizes */
+        :root {
+            --nav-height: 65px;
+            --page-padding: 10px;
+        }
+
         /* Page Container - Non-Scrollable Height */
         .page {
             width: 100vw;
-            height: calc(100vh - 65px); /* Full height minus fixed nav bar */
-            display: none; /* Hidden by default */
-            padding: 20px;
-            overflow: hidden; /* Prevent page-level scrolling */
+            height: calc(100vh - var(--nav-height)); /* Full height minus fixed nav bar */
+            display: none; 
+            padding: var(--page-padding);
+            overflow: hidden; /* CRITICAL: Prevents page-level scrolling */
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
             position: relative; 
-            z-index: 1; 
+            z-index: 1; /* Above the bubbles */
+            background-color: transparent; 
         }
         .active { 
             display: flex; 
         }
         .page h1 { 
             color: #ffffff; 
+            margin-top: 10px; /* Adjusted H1 position */
             margin-bottom: 10px; 
             flex-shrink: 0; 
             text-align: center; 
+            font-size: 32px;
         }
         
         /* --- NON-SCROLLABLE CONTENT WRAPPER --- */
@@ -45,257 +54,170 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center; /* Center content vertically */
-            flex-grow: 1;
+            justify-content: center; /* Vertically centers the card container block */
+            flex-grow: 1; /* Takes all available height */
             width: 100%;
             padding: 5px 0; /* Reduced padding to save vertical space */
-            overflow-y: hidden; /* FIX: Removed auto-scrolling */
-            overflow-x: hidden;
+            overflow: hidden; 
             min-height: 0; 
         }
 
         /* ================================================= */
-        /* === 2. NAVIGATION & BUTTONS === */
+        /* === 2. NAVIGATION & BUTTONS (FIXED) === */
         /* ================================================= */
 
-        /* Navigation Bar - Dark Tech Look */
+        /* Navigation Bar */
         nav {
-            width: 100%; height: 65px; background: #0a0a0a;
+            width: 100%; height: var(--nav-height); background: #0a0a0a;
             display: flex; justify-content: center; align-items: center; gap: 10px; 
             box-shadow: 0 0 10px rgba(208, 14, 226, 0.5); 
             z-index: 10; 
             position: sticky; top: 0;
         }
-        nav a {
-            color: #ffffff; text-decoration: none; font-size: 14px; 
-            font-weight: 600; padding: 8px 10px; border: 1px solid transparent;
-            transition: 0.3s; cursor: pointer; 
-        }
-        nav a:hover {
-            background: rgba(0, 255, 255, 0.1);
-            border-color: #2816c4;
-            color: #46f3f3;
-        }
-        .nav-active {
-            background: rgba(212, 40, 189, 0.2);
-            color: #b11ab6;
-            border-color: #310329;
-        }
-
-        /* Navigation Buttons */
+        nav a { color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 600; padding: 8px 10px; transition: 0.3s; cursor: pointer; }
+        
         .nav-button-container {
-            width: 90%;
-            max-width: 1200px; 
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
+            width: 90%; max-width: 1200px; display: flex;
+            justify-content: space-between; 
+            padding: 10px 0; 
             flex-shrink: 0; 
             z-index: 1; 
         }
-        /* Specific alignment for pages with only a back button */
-        #family .nav-button-container,
-        #contact .nav-button-container {
-             justify-content: flex-start; 
-        }
         
-        .nav-button {
-            padding: 10px 25px; border: none; border-radius: 0; 
-            font-size: 16px; font-weight: 600; cursor: pointer;
-            transition: background 0.3s, transform 0.1s;
-        }
-        .nav-button-back {
-            background: #555; color: #ffffff;
-            box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
-        }
-        .nav-button-next {
-            background: #67067a; color: #1c1c1c; 
-            box-shadow: 0 0 10px #510269;
-        }
-        .nav-button:hover { opacity: 0.8; transform: translateY(-2px); }
-        
-        /* Home page specific next button style */
-        #home .nav-button-next {
-             background: #9509a1; color: #ffffff;
-             padding: 10px 30px; border-radius: 5px;
-             box-shadow: 0 0 10px rgba(149, 9, 161, 0.5);
-             font-size: 18px;
-        }
-        #home .nav-button-next:hover { background: #b11ab6; transform: translateY(-2px); opacity: 1; }
-        
-        /* FIX: Ensure only Next button on Home page */
+        /* Button visibility and style adjustments */
         #home .nav-button-container { justify-content: flex-end; }
         #home .nav-button-container .nav-button-back { display: none; }
+        /* The Next button for Contact page is removed in the HTML for simplicity */
+        
+        .nav-button {
+             background: #9509a1; color: #ffffff;
+             padding: 10px 30px; border-radius: 5px;
+             font-size: 18px; border: none; cursor: pointer; transition: 0.3s;
+        }
+        .nav-button-back {
+            background: #252525;
+            color: #ffffff;
+        }
 
         /* ================================================= */
-        /* === 3. LOADER & ANIMATIONS === */
+        /* === 3. GLOBAL BACKGROUND ANIMATION (FIXED) === */
         /* ================================================= */
         
-        /* Loader CSS (Same as before, ensuring bobbing animation is present) */
-        #pre-load {
-            background: #000; position: fixed; inset: 0;
-            display: flex; align-items: center; justify-content: center;
-            z-index: 999999;
-            visibility: hidden; 
-            opacity: 0;
-            transition: opacity 0.3s ease;
+        /* The main container is on the home page but positioned fixed to cover all pages */
+        #home .bubbles {
+            position: fixed; /* CRITICAL: Stays put on all pages */
+            inset: 0;
+            width: 100%; height: 100%; 
+            z-index: 0; 
+            overflow: hidden;
         }
-
-        #pre-load.show {
-            visibility: visible;
-            opacity: 1;
+        .bubble {
+            position: absolute; bottom: -75%; border-radius: 50%;
+            width: 80px; height: 80px; 
+            background: rgba(0, 255, 255, 0.2); 
+            animation: float-up 10s linear infinite;
         }
+        /* Custom Bubble Styles */
+        .bubble:nth-child(1) { left: 10%; width: 40px; height: 40px; animation-duration: 8s; background: rgba(255, 0, 255, 0.2); }
+        .bubble:nth-child(2) { left: 30%; width: 120px; height: 120px; animation-duration: 15s; animation-delay: 2s; }
+        .bubble:nth-child(3) { left: 50%; width: 60px; height: 60px; animation-duration: 7s; animation-delay: 4s; background: rgba(0, 255, 100, 0.2); }
+        .bubble:nth-child(4) { left: 70%; width: 90px; height: 90px; animation-duration: 12s; animation-delay: 6s; background: rgba(255, 255, 0, 0.2); }
+        .bubble:nth-child(5) { left: 90%; width: 50px; height: 50px; animation-duration: 9s; animation-delay: 8s; }
 
-        #pre-load .loader-inner {
-            --loader-background: linear-gradient(0deg, rgba(50,50,50,.2) 0%, rgba(100,100,100,.2) 100%);
-            position: relative; height: 250px; aspect-ratio: 1;
-            display: flex; align-items: center; justify-content: center;
+
+        /* Keyframes for Animation */
+        @keyframes float-up { 
+            0% { transform: translateY(0) scale(0.5); opacity: 0.5; } 
+            100% { transform: translateY(-175vh) scale(1.5); opacity: 0; } 
         }
-
-        #pre-load .loader-inner .loader-logo {
-            position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%); width: 60px; height: 60px;
-            display: flex; align-items: center; justify-content: center;
-            animation: color-change 2s infinite ease-in-out; z-index: 999;
-        }
-
-        #pre-load .loader-inner .loader-logo svg { width: 100%; height: 100%; }
-
-        #pre-load .loader-inner .box {
-            position: absolute; background: var(--loader-background);
-            border-radius: 50%; border-top: 1px solid rgb(100,100,100);
-            box-shadow: rgba(0,0,0,.3) 0 10px 10px 0; backdrop-filter: blur(5px);
-            animation: bobbing 2s infinite ease-in-out; 
-        }
-
-        #pre-load .loader-inner .box:nth-child(1) { width: 25%; aspect-ratio: 1/1; z-index: 99; animation-delay: 0s; }
-        #pre-load .loader-inner .box:nth-child(2) { inset: 30%; z-index: 98; border-color: rgba(100,100,100,.8); animation-delay: .2s; }
-        #pre-load .loader-inner .box:nth-child(3) { inset: 20%; z-index: 97; border-color: rgba(100,100,100,.6); animation-delay: .4s; }
-        #pre-load .loader-inner .box:nth-child(4) { inset: 10%; z-index: 96; border-color: rgba(100,100,100,.4); animation-delay: .6s; }
-        #pre-load .loader-inner .box:nth-child(5) { inset: 0; z-index: 95; border-color: rgba(100,100,100,.2); animation-delay: .8s; }
-
-        @keyframes bobbing {
-          0%   { transform: translateY(0); }
-          25%  { transform: translateY(-20px); }
-          50%  { transform: translateY(0); }
-          75%  { transform: translateY(20px); }
-          100% { transform: translateY(0); }
-        }
-        @keyframes color-change {
-            0% { opacity: 0.7; }
-            50% { opacity: 1; }
-            100% { opacity: 0.7; }
-        }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideInUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .animate-in { animation: fadeIn 0.5s ease-out, slideInUp 0.6s ease-out; }
-
+        
         /* ================================================= */
-        /* === 4. HOME PAGE LAYOUT (Background Animation Maintained) === */
+        /* === 4. HOME PAGE LAYOUT === */
         /* ================================================= */
 
-        #home { justify-content: space-between; align-items: center; padding-top: 20px; }
-        .personal-name { font-size: 30px; color: #bf02c5; margin-bottom: 20px; flex-shrink: 0; padding-top: 10px; }
-        .home-content { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; max-width: 1000px; padding: 0 20px; gap: 20px; flex-grow: 1; }
-        @media (min-width: 768px) {
-            .home-content { flex-direction: row; justify-content: center; align-items: flex-start; gap: 50px; }
-        }
-        /* Profile Picture Frame & Text Bubble Styles (No major changes) */
-        .profile-frame { width: 280px; height: 280px; border: 3px solid #bf02c5; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 15px #b305b9; flex-shrink: 0; overflow: hidden; }
+        .profile-frame { width: 250px; height: 250px; border: 3px solid #bf02c5; border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 15px #b305b9; flex-shrink: 0; overflow: hidden; }
         .profile-frame img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-        .text-bubble { background: rgba(158, 0, 145, 0.7); border-radius: 15px; padding: 25px; color: #ffffff; max-width: 600px; box-shadow: 0 0 20px rgba(255, 4, 255, 0.3); display: flex; flex-direction: column; flex-grow: 1; }
-        .text-bubble h2 { font-size: 28px; color: #ee14bf; margin-bottom: 15px; text-align: left; }
-        .text-bubble p { font-size: 16px; color: #b0b0b0; line-height: 1.6; text-align: left; flex-grow: 1; }
 
-        /* Bubbles Animation (MAINTAINED) */
-        #home .bubbles { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden; }
-        #home .bubble { position: absolute; bottom: -75%; border-radius: 50%; animation: float-up 10s ease-in infinite; }
-        #home .bubble::before { position: absolute; content: ''; top: 0; left: 0; width: 100%; height: 100%; background: hsla(183, 94%, 76%, 0.3); border-radius: inherit; animation: sway-left-to-right 5s ease-in-out alternate infinite; }
-        #home .bubble:nth-child(1) { left: 5vw; width: 3vw; height: 3vw; animation-duration: 8s; animation-delay: 0s; }
-        #home .bubble:nth-child(2) { left: 20vw; width: 5vw; height: 5vw; animation-duration: 10s; animation-delay: 1s; }
-        #home .bubble:nth-child(3) { left: 35vw; width: 2vw; height: 2vw; animation-duration: 12s; animation-delay: 2s; }
-        #home .bubble:nth-child(4) { left: 55vw; width: 4vw; height: 4vw; animation-duration: 9s; animation-delay: 0.5s; }
-        #home .bubble:nth-child(5) { left: 80vw; width: 6vw; height: 6vw; animation-duration: 11s; animation-delay: 3s; }
-        @keyframes float-up { to { transform: translateY(-175vh); } }
-        @keyframes sway-left-to-right { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
 
         /* ================================================= */
-        /* === 5. CARD LAYOUTS (SCALING FOR NO SCROLL) === */
+        /* === 5. CARD LAYOUTS (SCALING FIXED) === */
         /* ================================================= */
 
         .card-container {
             display: flex; flex-direction: row; flex-wrap: wrap; 
-            gap: 10px 1%; /* Tighter gap to maximize space */
-            flex-grow: 1; /* Allow container to fill wrapper space */
+            gap: 10px 1%; /* Optimized gap */
+            flex-grow: 1; 
             width: 95%; max-width: 1200px; 
             justify-content: center;
-            align-content: center; /* Vertically center the card rows */
-            padding-bottom: 5px; /* Reduced padding */
+            align-content: center; 
+            padding-bottom: 5px; 
         }
         
-        /* EDUCATION SPECIFIC SCALING */
+        /* EDUCATION FIXES (5 per row, tight fit) */
         .edu-card-item { 
-            background: #1c1c1c; border-radius: 10px; padding: 10px 5px; /* Reduced padding */
-            text-align: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); 
-            display: flex; flex-direction: column; align-items: center; 
-            transition: transform 0.2s, box-shadow 0.2s; border: 1px solid rgba(0, 255, 255, 0.3); 
-            margin: 5px 0; /* Reduced margin */
-            width: 48%; /* Mobile: 2 per row */
+            background: #1c1c1c; border-radius: 10px; padding: 5px 3px; 
+            text-align: center; border: 1px solid rgba(0, 255, 255, 0.3); 
+            margin: 5px 0; 
+            width: 48%; /* Mobile default */
             min-height: 180px;
         }
         .edu-level { font-weight: 700; color: #00FFFF; font-size: 0.9rem; margin-bottom: 3px; }
-        .edu-name { font-size: 0.7rem; color: #b0b0b0; line-height: 1.2; } /* Smaller text */
-        .logo-frame-edu { width: 50px; height: 50px; border: 2px solid #555555; border-radius: 50%; overflow: hidden; flex-shrink: 0; margin-top: 5px; }
-        .logo-frame-edu img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+        .edu-name { font-size: 0.75rem; color: #b0b0b0; line-height: 1.2; } 
+        .logo-frame-edu { width: 60px; height: 60px; border: 2px solid #555555; border-radius: 50%; overflow: hidden; flex-shrink: 0; margin-top: 5px; margin-bottom: 5px; }
+        .logo-frame-edu img { width: 100%; height: 100%; object-fit: contain; background: #ffffff; /* White background for logos for better visibility */ border-radius: 50%; }
 
-        /* ACHIEVEMENTS SPECIFIC SCALING */
-        #achievements .card-container { gap: 5px 0.5%; } /* Even tighter gap */
+        /* ACHIEVEMENTS FIXES (3 per row, tight vertical fit) */
+        #achievements .card-container { gap: 5px 0.5%; } 
         .ach-card-item { 
-            background: #1c1c1c; border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); 
-            border: 2px solid #f174f1; overflow: hidden; width: 49%; /* Mobile: 2 per row */
-            max-height: 150px; /* Constrain vertical size */
-            margin: 2px 0;
+            background: #1c1c1c; border-radius: 8px; border: 2px solid #f174f1; overflow: hidden; 
+            width: 49%; /* Mobile default */
+            max-height: 150px; 
+            margin: 5px 0; /* Add vertical margin to separate rows */
+            display: flex; /* Make it flex to align image/text */
         }
-        .ach-image-container { flex-basis: 50%; padding: 3px; }
-        .ach-text-content { padding: 3px 5px; flex-basis: 50%; }
-        .ach-level { font-weight: 700; color: #3b76cf; font-size: 0.65rem; margin-bottom: 1px; line-height: 1.1; }
-        .ach-name { font-size: 0.55rem; color: #b0b0b0; line-height: 1.1; }
-
-        /* FAMILY PAGE SPECIFIC SCALING */
-        #family h1 { font-size: 32px; margin-bottom: 5px; } /* Reduced h1 margin */
+        .ach-image-container { flex-basis: 40%; padding: 5px; } /* Increased image size percentage */
+        .ach-image-container img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .ach-text-content { padding: 3px 5px; flex-basis: 60%; display: flex; flex-direction: column; justify-content: center; text-align: left; }
+        .ach-level { font-weight: 700; color: #00FFFF; font-size: 0.75rem; margin-bottom: 1px; line-height: 1.1; }
+        .ach-name { font-size: 0.65rem; color: #b0b0b0; line-height: 1.1; }
+        
+        /* FAMILY FIXES (3 per row, optimized text and image fit) */
         #family .card-container { justify-content: space-around; align-items: flex-start; }
         .family-card-item {
-            width: 95%; max-width: 400px; /* Mobile full width */
+            width: 95%; max-width: 400px;
             border: 2px solid #00FFFF; margin: 5px 0;
         }
-        .family-image-container { aspect-ratio: 4/3; }
-        .family-text-content { padding: 10px; } /* Reduced padding */
+        .family-image-container { aspect-ratio: 4/3; overflow: hidden; }
+        .family-image-container img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .family-text-content { padding: 10px; }
         .family-title { font-size: 1.0rem; margin-bottom: 3px; }
-        .family-description { font-size: 0.8rem; line-height: 1.3; } /* Smaller text */
+        .family-description { font-size: 0.8rem; line-height: 1.3; }
+
+        /* CONTACT FIXES (Ready for custom content) */
+        #contact .page-content-wrapper { justify-content: center; text-align: center; }
 
 
         /* ================================================= */
-        /* === DESKTOP RESPONSIVENESS (for max space) === */
+        /* === DESKTOP RESPONSIVENESS FIXES === */
         /* ================================================= */
         @media (min-width: 768px) {
-            .page-content-wrapper { padding: 10px 0; }
+            .card-container { gap: 10px 1.5%; }
 
             /* EDUCATION - 5 per row */
-            .edu-card-item { width: 18%; min-height: 250px; padding: 10px 5px; } 
-            .edu-level { font-size: 1.0rem; }
-            .edu-name { font-size: 0.85rem; }
-            .logo-frame-edu { width: 70px; height: 70px; }
+            .edu-card-item { width: 18%; min-height: 220px; padding: 10px 5px; } 
+            .edu-name { font-size: 0.75rem; }
+            .logo-frame-edu { width: 60px; height: 60px; }
 
-            /* ACHIEVEMENTS - 5 per row */
-            .ach-card-item { width: 19%; max-height: 170px; } 
-            .ach-image-container { flex-basis: 60%; }
-            .ach-text-content { flex-basis: 40%; }
-            .ach-level { font-size: 0.75rem; }
-            .ach-name { font-size: 0.65rem; }
+            /* ACHIEVEMENTS - 3 per row (matching the screenshot) */
+            .ach-card-item { width: 31.5%; max-height: 170px; } 
+            .ach-image-container { flex-basis: 40%; }
+            .ach-text-content { flex-basis: 60%; }
+            .ach-level { font-size: 0.8rem; }
+            .ach-name { font-size: 0.7rem; }
+
 
             /* FAMILY - 3 per row */
-            .family-card-item { width: 31%; max-height: 400px; }
-            .family-title { font-size: 1.1rem; }
-            .family-description { font-size: 0.9rem; }
+            .family-card-item { width: 31%; }
         }
     </style>
 </head>
@@ -303,17 +225,7 @@
 <body>
   <div id="pre-load" class="loader">
      <div class="loader-inner">
-        <div class="loader-logo">
-          <svg viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M16.5 12L13 14.333V19L20 14.333V9.667L13 5V9.667L16.5 12Z" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
         </div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-     </div>
   </div>
 
   <nav>
@@ -339,7 +251,7 @@
           <div class="profile-frame">
               <img src="https://lh3.googleusercontent.com/pw/AP1GczPxyex_ZM1HnjC28nQjESOUETZqBjzP-5ysIp5BUaojAtn7iUmIXTOpT1xOUNXW_7F85CfCLn4dASzc--Wuc2BvqdT_zF8S54VkQH9WBJ0iYfFt-co=w2400"
                   alt="Profile Picture"
-                  onerror="this.onerror=null; this.src='https://placehold.co/280x280/333333/FFFFFF?text=Shiela+Photo';">
+                  onerror="this.onerror=null; this.src='https://placehold.co/250x250/333333/FFFFFF?text=Shiela+Photo';">
           </div>
 
           <div class="text-bubble">
@@ -351,7 +263,6 @@
       </div>
 
       <div class="nav-button-container">
-          <button class="nav-button nav-button-back" onclick="triggerShowPage('family')"><< Back</button>
           <button class="nav-button nav-button-next" onclick="triggerShowPage('education')">Next >></button>
       </div>
   </div>
@@ -372,7 +283,7 @@
               </div>
               <div class="edu-card-item">
                   <div class="logo-frame-edu">
-                      <img src="https://tse1.mm.bing.net/th/id/OIP.278hpRY4QmXuoAjvKUWI2QAAAA?rs=1&pid=ImgDetMain&o=7&rm=3" alt="Senior and Junior High School Logo" onerror="this.onerror=null; this.src='https://placehold.co/80x80/dddddd/333333?text=BCNHS';">
+                      <img src="https://tse1.mm.bing.net/th/id/OIP.278hpRY4QmXuoAjvKUWI2QAAAA?rs=1&pid=ImgDetMain&o=7&rm=3" alt="High School Logo" onerror="this.onerror=null; this.src='https://placehold.co/80x80/dddddd/333333?text=BCNHS';">
                   </div>
                   <div class="edu-details">
                       <span class="edu-level">Baguio City National High School</span>
@@ -482,13 +393,13 @@
   <div class="page" id="contact">
       <h1>CONTACT ME</h1>
       <div class="page-content-wrapper animate-in">
-          <p>This is the final page. Add your contact form or social links here.</p>
-          <p>Click 'Back' to return to the Family page, or 'About Me' in the navigation bar.</p>
+          <p>This is the final page. Add your contact details and custom image here.</p>
+          <p>Click 'Back' to return to the Family page, or use the navigation bar.</p>
       </div>
 
       <div class="nav-button-container">
           <button class="nav-button nav-button-back" onclick="triggerShowPage('family')"><< Back</button>
-      </div>
+          </div>
   </div>
 
 
@@ -496,12 +407,8 @@
       const loader = document.getElementById("pre-load");
       const LOADER_DURATION = 500; // Time the loader is visible for transition (in ms)
 
-      /**
-       * Primary function to switch pages and handle navigation bar state.
-       * This is called by triggerShowPage after the loader transition.
-       */
       function showPage(pageId) {
-          // 1. Hide all pages
+          // 1. Hide all pages and remove animation class
           const pages = document.querySelectorAll('.page');
           pages.forEach(page => {
               page.classList.remove('active');
@@ -525,35 +432,24 @@
           });
       }
 
-      /**
-       * Triggers the loader, then executes the page switch after a delay.
-       * This is called by all navigation buttons and links.
-       */
       function triggerShowPage(pageId) {
-          if (!loader) {
-              // Fallback if loader is missing
-              showPage(pageId);
-              return;
+          if (loader) {
+               loader.classList.add("show");
           }
 
-          // Show the loader
-          loader.classList.add("show");
-
-          // Wait for the duration, then switch pages and hide the loader
           setTimeout(() => {
               showPage(pageId);
-              // Hide the loader
-              loader.classList.remove("show");
+              if (loader) {
+                  loader.classList.remove("show");
+              }
           }, LOADER_DURATION);
       }
 
       // Initialize the page on load
       document.addEventListener('DOMContentLoaded', () => {
-          // Hide the loader immediately if it's somehow visible initially
           if (loader) {
               loader.classList.remove("show");
           }
-          // Set the home page as active on initial load
           showPage('home'); 
       });
   </script>
