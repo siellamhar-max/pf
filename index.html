@@ -6,7 +6,7 @@
     <title>Shiela Mar Tengay | Portfolio</title>
     <style>
         /* ================================================= */
-        /* === 1. GENERAL SETUP & CORE LAYOUT (MAXIMIZE SPACE) === */
+        /* === 1. GENERAL SETUP & CORE LAYOUT === */
         /* ================================================= */
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -14,16 +14,17 @@
             font-family: 'Segoe UI', sans-serif;
             background: #0a0a0a; 
             color: #fdfafa; 
-            overflow: hidden; /* Prevent body scrolling */
+            /* Removed overflow: hidden from body to allow full page navigation */
         }
         
-        /* Page Container - Non-Scrollable Height */
+        /* Page Container - Non-Scrollable Height (Adjusted for Nav Bar) */
         .page {
             width: 100vw;
-            height: calc(100vh - 65px); /* Full height minus fixed nav bar */
+            /* Full viewport height minus the fixed nav bar height */
+            height: calc(100vh - 65px); 
             display: none; /* Hidden by default */
             padding: 20px;
-            overflow: hidden; /* Prevent page-level scrolling */
+            overflow: hidden; 
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
@@ -45,11 +46,11 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center; /* Center content vertically */
+            justify-content: center; 
             flex-grow: 1;
             width: 100%;
-            padding: 5px 0; /* Reduced padding to save vertical space */
-            overflow-y: hidden; /* FIX: Removed auto-scrolling */
+            padding: 10px 0;
+            overflow-y: hidden; 
             overflow-x: hidden;
             min-height: 0; 
         }
@@ -64,7 +65,8 @@
             display: flex; justify-content: center; align-items: center; gap: 10px; 
             box-shadow: 0 0 10px rgba(208, 14, 226, 0.5); 
             z-index: 10; 
-            position: sticky; top: 0;
+            position: sticky; /* Keep nav fixed at the top */
+            top: 0;
         }
         nav a {
             color: #ffffff; text-decoration: none; font-size: 14px; 
@@ -82,7 +84,7 @@
             border-color: #310329;
         }
 
-        /* Navigation Buttons */
+        /* Navigation Buttons - Angular/Sharp */
         .nav-button-container {
             width: 90%;
             max-width: 1200px; 
@@ -90,9 +92,9 @@
             justify-content: space-between;
             padding: 10px 0;
             flex-shrink: 0; 
-            z-index: 1; 
+            z-index: 1; /* Above bubbles on home page */
         }
-        /* Specific alignment for pages with only a back button */
+        /* Specific alignment for Family page */
         #family .nav-button-container,
         #contact .nav-button-container {
              justify-content: flex-start; 
@@ -122,7 +124,7 @@
         }
         #home .nav-button-next:hover { background: #b11ab6; transform: translateY(-2px); opacity: 1; }
         
-        /* FIX: Ensure only Next button on Home page */
+        /* Hide the back button on the first page */
         #home .nav-button-container { justify-content: flex-end; }
         #home .nav-button-container .nav-button-back { display: none; }
 
@@ -130,11 +132,12 @@
         /* === 3. LOADER & ANIMATIONS === */
         /* ================================================= */
         
-        /* Loader CSS (Same as before, ensuring bobbing animation is present) */
+        /* Loader CSS */
         #pre-load {
             background: #000; position: fixed; inset: 0;
             display: flex; align-items: center; justify-content: center;
             z-index: 999999;
+            /* Set to fully transparent/hidden initially */
             visibility: hidden; 
             opacity: 0;
             transition: opacity 0.3s ease;
@@ -164,15 +167,26 @@
             position: absolute; background: var(--loader-background);
             border-radius: 50%; border-top: 1px solid rgb(100,100,100);
             box-shadow: rgba(0,0,0,.3) 0 10px 10px 0; backdrop-filter: blur(5px);
-            animation: bobbing 2s infinite ease-in-out; 
+            animation: bobbing 2s infinite ease-in-out; /* FIX: Applied bobbing animation */
         }
 
+        /* Stagger the boxes for bobbing animation */
         #pre-load .loader-inner .box:nth-child(1) { width: 25%; aspect-ratio: 1/1; z-index: 99; animation-delay: 0s; }
         #pre-load .loader-inner .box:nth-child(2) { inset: 30%; z-index: 98; border-color: rgba(100,100,100,.8); animation-delay: .2s; }
         #pre-load .loader-inner .box:nth-child(3) { inset: 20%; z-index: 97; border-color: rgba(100,100,100,.6); animation-delay: .4s; }
         #pre-load .loader-inner .box:nth-child(4) { inset: 10%; z-index: 96; border-color: rgba(100,100,100,.4); animation-delay: .6s; }
         #pre-load .loader-inner .box:nth-child(5) { inset: 0; z-index: 95; border-color: rgba(100,100,100,.2); animation-delay: .8s; }
 
+        @keyframes ripple {
+            0% { transform: scale(1); box-shadow: rgba(0,0,0,.3) 0 10px 10px 0; }
+            50% { transform: scale(1.3); box-shadow: rgba(0,0,0,.3) 0 30px 20px 0; }
+            100% { transform: scale(1); box-shadow: rgba(0,0,0,.3) 0 10px 10px 0; }
+        }
+        @keyframes color-change {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
         @keyframes bobbing {
           0%   { transform: translateY(0); }
           25%  { transform: translateY(-20px); }
@@ -180,14 +194,19 @@
           75%  { transform: translateY(20px); }
           100% { transform: translateY(0); }
         }
-        @keyframes color-change {
-            0% { opacity: 0.7; }
-            50% { opacity: 1; }
-            100% { opacity: 0.7; }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideInUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideInUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .animate-in { animation: fadeIn 0.5s ease-out, slideInUp 0.6s ease-out; }
+        .animate-in {
+            animation: fadeIn 0.5s ease-out, slideInUp 0.6s ease-out;
+        }
 
         /* ================================================= */
         /* === 4. HOME PAGE LAYOUT (Background Animation Maintained) === */
@@ -205,21 +224,41 @@
         .text-bubble { background: rgba(158, 0, 145, 0.7); border-radius: 15px; padding: 25px; color: #ffffff; max-width: 600px; box-shadow: 0 0 20px rgba(255, 4, 255, 0.3); display: flex; flex-direction: column; flex-grow: 1; }
         .text-bubble h2 { font-size: 28px; color: #ee14bf; margin-bottom: 15px; text-align: left; }
         .text-bubble p { font-size: 16px; color: #b0b0b0; line-height: 1.6; text-align: left; flex-grow: 1; }
+        /* Text Bubble Styling */
+        .text-bubble {
+            background: rgba(158, 0, 145, 0.7); border-radius: 15px;
+            padding: 25px; color: #ffffff; max-width: 600px; 
+            box-shadow: 0 0 20px rgba(255, 4, 255, 0.3); 
+            display: flex; flex-direction: column; flex-grow: 1; 
+        }
+        .text-bubble h2 { font-size: 28px; color: #ee14bf; margin-bottom: 15px; text-align: left; }
+        .text-bubble p { font-size: 16px; color: #b0b0b0; line-height: 1.6; text-align: left; flex-grow: 1; }
 
-        /* Bubbles Animation (MAINTAINED) */
-        #home .bubbles { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden; }
-        #home .bubble { position: absolute; bottom: -75%; border-radius: 50%; animation: float-up 10s ease-in infinite; }
-        #home .bubble::before { position: absolute; content: ''; top: 0; left: 0; width: 100%; height: 100%; background: hsla(183, 94%, 76%, 0.3); border-radius: inherit; animation: sway-left-to-right 5s ease-in-out alternate infinite; }
+        /* Bubbles Animation */
+        #home .bubbles {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden;
+        }
+        #home .bubble {
+            position: absolute; bottom: -75%; border-radius: 50%;
+            animation: float-up 10s ease-in infinite;
+        }
+        #home .bubble::before {
+            position: absolute; content: ''; top: 0; left: 0; width: 100%; height: 100%;
+            background: hsla(183, 94%, 76%, 0.3); border-radius: inherit;
+            animation: sway-left-to-right 5s ease-in-out alternate infinite;
+        }
+        /* Example bubbles */
         #home .bubble:nth-child(1) { left: 5vw; width: 3vw; height: 3vw; animation-duration: 8s; animation-delay: 0s; }
         #home .bubble:nth-child(2) { left: 20vw; width: 5vw; height: 5vw; animation-duration: 10s; animation-delay: 1s; }
         #home .bubble:nth-child(3) { left: 35vw; width: 2vw; height: 2vw; animation-duration: 12s; animation-delay: 2s; }
         #home .bubble:nth-child(4) { left: 55vw; width: 4vw; height: 4vw; animation-duration: 9s; animation-delay: 0.5s; }
         #home .bubble:nth-child(5) { left: 80vw; width: 6vw; height: 6vw; animation-duration: 11s; animation-delay: 3s; }
+        /* Animations */
         @keyframes float-up { to { transform: translateY(-175vh); } }
         @keyframes sway-left-to-right { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
 
         /* ================================================= */
-        /* === 5. CARD LAYOUTS (SCALING FOR NO SCROLL) === */
+        /* === 5. CARD LAYOUTS (Education/Achievements/Family) === */
         /* ================================================= */
 
         .card-container {
@@ -232,8 +271,8 @@
             padding-bottom: 5px; /* Reduced padding */
         }
         
-        /* EDUCATION SPECIFIC SCALING */
-        .edu-card-item { 
+        /* EDUCATION SPECIFIC STYLES */
+       .edu-card-item { 
             background: #1c1c1c; border-radius: 10px; padding: 10px 5px; /* Reduced padding */
             text-align: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); 
             display: flex; flex-direction: column; align-items: center; 
@@ -247,7 +286,7 @@
         .logo-frame-edu { width: 50px; height: 50px; border: 2px solid #555555; border-radius: 50%; overflow: hidden; flex-shrink: 0; margin-top: 5px; }
         .logo-frame-edu img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
 
-        /* ACHIEVEMENTS SPECIFIC SCALING */
+        /* ACHIEVEMENTS SPECIFIC STYLES */
         #achievements .card-container { gap: 5px 0.5%; } /* Even tighter gap */
         .ach-card-item { 
             background: #1c1c1c; border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); 
@@ -259,8 +298,8 @@
         .ach-text-content { padding: 3px 5px; flex-basis: 50%; }
         .ach-level { font-weight: 700; color: #3b76cf; font-size: 0.65rem; margin-bottom: 1px; line-height: 1.1; }
         .ach-name { font-size: 0.55rem; color: #b0b0b0; line-height: 1.1; }
-
-        /* FAMILY PAGE SPECIFIC SCALING */
+        
+        /* FAMILY PAGE SPECIFIC STYLES */
         #family h1 { font-size: 32px; margin-bottom: 5px; } /* Reduced h1 margin */
         #family .card-container { justify-content: space-around; align-items: flex-start; }
         .family-card-item {
@@ -271,7 +310,6 @@
         .family-text-content { padding: 10px; } /* Reduced padding */
         .family-title { font-size: 1.0rem; margin-bottom: 3px; }
         .family-description { font-size: 0.8rem; line-height: 1.3; } /* Smaller text */
-
 
         /* ================================================= */
         /* === DESKTOP RESPONSIVENESS (for max space) === */
