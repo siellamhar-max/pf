@@ -15,92 +15,88 @@
         }
 
 /* ===== Loader CSS ===== */
- #pre-load{
-     background:#000;
-     position:fixed;
-     inset:0;
-     display:flex;
-     align-items:center;
-     justify-content:center;
-     z-index:999999 
+#pre-load {
+    background: #000;
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999999;
+    visibility: hidden;       /* hidden initially */
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
- #pre-load .loader-inner{A
-     --loader-background:linear-gradient(0deg,rgba(50,50,50,.2) 0%,rgba(100,100,100,.2) 100%);
-     position:relative;
-     height:250px;
-     aspect-ratio:1;
-     display:flex;
-     align-items:center;
-     justify-content:center 
+
+#pre-load.show {
+    visibility: visible;
+    opacity: 1;
 }
- #pre-load .loader-inner .loader-logo{
-     position:absolute;
-     top:50%;
-     left:50%;
-     transform:translate(-50%,-50%);
-     width:60px;
-     height:60px;
-     display:flex;
-     align-items:center;
-     justify-content:center;
-     animation:color-change 2s infinite ease-in-out;
-     z-index:999 
+
+#pre-load .loader-inner {
+    --loader-background: linear-gradient(0deg, rgba(50,50,50,.2) 0%, rgba(100,100,100,.2) 100%);
+    position: relative;
+    height: 250px;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
- #pre-load .loader-inner .loader-logo svg{
-    width:100%;
-    height:100%
+
+#pre-load .loader-inner .loader-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: color-change 2s infinite ease-in-out;
+    z-index: 999;
 }
- #pre-load .loader-inner .box{
-     position:absolute;
-     background:var(--loader-background);
-     border-radius:50%;
-     border-top:1px solid rgb(100,100,100);
-     box-shadow:rgba(0,0,0,.3) 0 10px 10px 0;
-     backdrop-filter:blur(5px);
-     animation:ripple 2s infinite ease-in-out 
+
+#pre-load .loader-inner .loader-logo svg {
+    width: 100%;
+    height: 100%;
 }
- #pre-load .loader-inner .box:nth-child(1){
-    width:25%;
-    aspect-ratio:1/1;
-    z-index:99
+
+#pre-load .loader-inner .box {
+    position: absolute;
+    background: var(--loader-background);
+    border-radius: 50%;
+    border-top: 1px solid rgb(100,100,100);
+    box-shadow: rgba(0,0,0,.3) 0 10px 10px 0;
+    backdrop-filter: blur(5px);
+    animation: ripple 2s infinite ease-in-out;
 }
- #pre-load .loader-inner .box:nth-child(2){
-    inset:30%;
-    z-index:98;
-    border-color:rgba(100,100,100,.8);
-    animation-delay:.2s
-}
- #pre-load .loader-inner .box:nth-child(3){
-    inset:20%;
-    z-index:97;
-    border-color:rgba(100,100,100,.6);
-    animation-delay:.4s
-}
- #pre-load .loader-inner .box:nth-child(4){
-    inset:10%;
-    z-index:96;
-    border-color:rgba(100,100,100,.4);
-    animation-delay:.6s
-}
- #pre-load .loader-inner .box:nth-child(5){
-    inset:0;
-    z-index:95;
-    border-color:rgba(100,100,100,.2);
-    animation-delay:.8s
-}
- @keyframes ripple{
-     0%{
-        transform:scale(1);
-        box-shadow:rgba(0,0,0,.3) 0 10px 10px 0
+
+#pre-load .loader-inner .box:nth-child(1) { width: 25%; aspect-ratio: 1/1; z-index: 99; }
+#pre-load .loader-inner .box:nth-child(2) { inset: 30%; z-index: 98; border-color: rgba(100,100,100,.8); animation-delay: .2s; }
+#pre-load .loader-inner .box:nth-child(3) { inset: 20%; z-index: 97; border-color: rgba(100,100,100,.6); animation-delay: .4s; }
+#pre-load .loader-inner .box:nth-child(4) { inset: 10%; z-index: 96; border-color: rgba(100,100,100,.4); animation-delay: .6s; }
+#pre-load .loader-inner .box:nth-child(5) { inset: 0; z-index: 95; border-color: rgba(100,100,100,.2); animation-delay: .8s; }
+
+@keyframes ripple {
+    0% {
+        transform: scale(1);
+        box-shadow: rgba(0,0,0,.3) 0 10px 10px 0;
     }
-     50%{
-        transform:scale(1.3);
-        box-shadow:rgba(0,0,0,.3) 0 30px 20px 0
+    50% {
+        transform: scale(1.3);
+        box-shadow: rgba(0,0,0,.3) 0 30px 20px 0;
     }
-     100%{
-        transform:scale(1);
-        box-shadow:rgba(0,0,0,.3) 0 10px 10px 0
+    100% {
+        transform: scale(1);
+        box-shadow: rgba(0,0,0,.3) 0 10px 10px 0;
     }
+}
+
+@keyframes color-change {
+    0% { opacity: 0.7; }
+    50% { opacity: 1; }
+    100% { opacity: 0.7; }
 }
  @keyframes color-change{
      0%{
@@ -1044,33 +1040,38 @@
     </script>
     <script>
   document.addEventListener("DOMContentLoaded", function() {
-    const loader = document.getElementById("pre-load");
+  const loader = document.getElementById("pre-load");
 
-    // Show loader for 2 seconds on page load
-    loader.style.display = "flex";
+  function showLoader(duration = 2000, callback) {
+    loader.classList.add("show"); // show loader
     setTimeout(() => {
-      loader.style.display = "none";
-    }, 2000);
+      loader.classList.remove("show"); // hide loader after duration
+      if(callback) callback();
+    }, duration);
+  }
 
-    // Add loader to all internal links
-    document.querySelectorAll("a").forEach(link => {
-      if(link.hostname === window.location.hostname) {
-        link.addEventListener("click", function(e) {
-          e.preventDefault();
-          loader.style.display = "flex";
-          const href = this.href;
-          setTimeout(() => {
-            window.location.href = href;
-          }, 2000); // 2-second loader
+  // Show loader on initial page load
+  showLoader(2000);
+
+  // Add loader for all internal links
+  document.querySelectorAll("a").forEach(link => {
+    if(link.hostname === window.location.hostname) {
+      link.addEventListener("click", function(e) {
+        e.preventDefault();
+        const href = this.href;
+        showLoader(2000, () => {
+          window.location.href = href;
         });
-      }
-    });
+      });
+    }
   });
+});
 </script>
 
 </body>
 
 </html>
+
 
 
 
