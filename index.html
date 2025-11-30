@@ -198,17 +198,22 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center;     /* horizontal center */
-    justify-content: center; /* vertical center */
+    align-items: center;      /* horizontal center */
+    justify-content: center;  /* vertical center */
     position: relative;
     overflow: hidden;
     padding: 0 20px;
 }
 
+/* Centered content above bubbles */
 #home .home-content {
     position: relative;
     z-index: 1; /* ensure content is above bubbles */
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
 }
 
 /* ===== Bubbles Animation ===== */
@@ -247,17 +252,33 @@ body {
 #home .bubble:nth-child(3) { left: 35vw; width: 2vw; height: 2vw; animation-duration: 12s; animation-delay: 2s; }
 /* Add more bubbles if needed */
 
+/* ===== Animations ===== */
 @keyframes float-up { to { transform: translateY(-175vh); } }
 @keyframes sway-left-to-right { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
 @keyframes sway-right-to-left { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+@keyframes bobbing { 0% { transform: translateY(0); } 25% { transform: translateY(-20px); } 50% { transform: translateY(0); } 75% { transform: translateY(20px); } 100% { transform: translateY(0); } }
 
-/* Bobbing animation (optional) */
-@keyframes bobbing {
-    0% { transform: translateY(0); }
-    25% { transform: translateY(-20px); }
-    50% { transform: translateY(0); }
-    75% { transform: translateY(20px); }
-    100% { transform: translateY(0); }
+/* ===== Navigation Buttons ===== */
+.nav-button-container {
+    margin-top: 30px;
+    display: flex;
+    gap: 15px;
+    z-index: 1; /* above bubbles */
+}
+
+.nav-button {
+    padding: 10px 20px;
+    background-color: #bf02c5;
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.nav-button:hover {
+    background-color: #e100ff;
 }
 
 /* ===== Other pages black background only ===== */
@@ -867,18 +888,20 @@ body {
 
     <body>
   <!-- First Page (Home) -->
-        <div class="page active" id="home">
-        <!-- Bubble effect for home page -->
+<div class="page active" id="home">
+    <!-- Bubble effect for home page -->
     <div class="bubbles">
         <div class="bubble"></div>
         <div class="bubble"></div>
         <div class="bubble"></div>
         <div class="bubble"></div>
         <div class="bubble"></div>
-        <!-- add as many as you want -->
+        <!-- add more bubbles as needed -->
     </div>
 
-        <h1 class="personal-name">Shiela Mar Tengay</h1> 
+    <!-- Centered content container -->
+    <div class="home-content-container">
+        <h1 class="personal-name">Shiela Mar Tengay</h1>
 
         <div class="home-content animate-in">
             <div class="profile-frame">
@@ -886,26 +909,26 @@ body {
                     alt="Profile Picture"
                     onerror="this.onerror=null; this.src='https://placehold.co/280x280/333333/FFFFFF?text=Shiela+Photo';">
             </div>
-            
+
             <div class="text-bubble">
                 <h2>Hi, I'm Shiela! An IT student majoring in Web Technology</h2>
                 <p>
                     Building ideas, solving problems, and creating the future through technology. Here’s a glimpse of the milestones that shaped me. Welcome to my portfolio.
                 </p>
-                </div>
+            </div>
         </div>
-        
+
         <div class="nav-button-container">
             <button class="nav-button nav-button-back" onclick="showPage('education')"><< Back</button>
             <button class="nav-button nav-button-next" onclick="showPage('education')">Next >></button>
         </div>
     </div>
-                </div> <!-- end of #home page -->
+</div>
 
-  <!-- Optional: Preloader -->
-  <div id="pre-load" class="loader">
+<!-- Optional: Preloader -->
+<div id="pre-load" class="loader">
     <!-- Loader content here -->
-  </div>
+</div>
 
 </body>
 
@@ -1204,9 +1227,11 @@ body {
     <script>
   document.addEventListener("DOMContentLoaded", function() {
     const loader = document.getElementById("pre-load");
-    const duration = 5000; // 5 seconds
+    const duration = 2000; // loader duration (2s, adjust as needed)
 
+    // Show loader
     function showLoader(callback) {
+        if (!loader) return;
         loader.classList.add("show");
         setTimeout(() => {
             loader.classList.remove("show");
@@ -1214,34 +1239,38 @@ body {
         }, duration);
     }
 
-    // Show loader on first page load
-    showLoader();
+    // Show loader only on initial load of #home page
+    const currentPage = document.querySelector(".page.active");
+    if (currentPage && currentPage.id === "home") {
+        showLoader();
+    }
 
-    // Handle all internal link clicks
+    // Handle navigation buttons (buttons with data-href)
+    document.querySelectorAll("button[data-href]").forEach(btn => {
+        btn.addEventListener("click", e => {
+            e.preventDefault();
+            const targetHref = btn.dataset.href;
+            if (!targetHref) return;
+            showLoader(() => window.location.href = targetHref);
+        });
+    });
+
+    // Handle anchor links (internal)
     document.querySelectorAll("a[href]").forEach(link => {
         link.addEventListener("click", e => {
             const href = link.getAttribute("href");
             if (!href || href.startsWith("#") || href.startsWith("http")) return; // skip external/anchors
-
             e.preventDefault();
             showLoader(() => window.location.href = href);
         });
     });
 
-    // Handle buttons with data-href
-    document.querySelectorAll("button[data-href]").forEach(btn => {
-        btn.addEventListener("click", e => {
-            const targetHref = btn.dataset.href;
-            if (!targetHref) return;
-
-            e.preventDefault();
-            showLoader(() => window.location.href = targetHref);
-        });
-    });
-
     // Optional: handle forms
     document.querySelectorAll("form").forEach(form => {
-        form.addEventListener("submit", e => showLoader());
+        form.addEventListener("submit", e => {
+            e.preventDefault();
+            showLoader(() => form.submit());
+        });
     });
 });
 
