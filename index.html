@@ -22,13 +22,13 @@
             width: 100vw;
             height: calc(100vh - 65px); /* Full height minus fixed nav bar */
             display: none; 
-            padding: 10px; /* Reduced overall padding for maximized space */
-            overflow: hidden; /* Prevents page-level scrolling (THE FIX) */
+            padding: 10px; /* Minimal overall padding */
+            overflow: hidden; /* Critical: Prevents page-level scrolling */
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
             position: relative; 
-            z-index: 1; 
+            z-index: 1; /* Above the bubbles */
             background-color: transparent; 
         }
         .active { 
@@ -37,7 +37,7 @@
         .page h1 { 
             color: #ffffff; 
             margin-top: 10px; 
-            margin-bottom: 5px; 
+            margin-bottom: 5px; /* Minimal top/bottom margin */
             flex-shrink: 0; 
             text-align: center; 
             font-size: 28px;
@@ -48,11 +48,11 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center; 
+            justify-content: center; /* Vertically centers the card container */
             flex-grow: 1;
             width: 100%;
-            padding: 0; /* Critical: Zero padding to maximize space */
-            overflow-y: hidden; 
+            padding: 0; 
+            overflow-y: hidden; /* THE FINAL FIX for card areas */
             overflow-x: hidden;
             min-height: 0; 
         }
@@ -83,12 +83,14 @@
             flex-shrink: 0; 
             z-index: 1; 
         }
-        .nav-button-back { background: #555; color: #ffffff; }
-        .nav-button-next { background: #67067a; color: #1c1c1c; }
-        
+        /* Home page specific: Next button only, right aligned */
         #home .nav-button-container { justify-content: flex-end; }
         #home .nav-button-container .nav-button-back { display: none; }
-        #home .nav-button-next { background: #9509a1; color: #ffffff; padding: 10px 30px; border-radius: 5px; font-size: 18px; }
+        .nav-button-next { 
+             background: #9509a1; color: #ffffff;
+             padding: 10px 30px; border-radius: 5px;
+             font-size: 18px;
+        }
 
         /* ================================================= */
         /* === 3. GLOBAL BACKGROUND ANIMATION (FIXED) === */
@@ -110,7 +112,6 @@
             background: hsla(183, 94%, 76%, 0.3); border-radius: inherit;
             animation: sway-left-to-right 5s ease-in-out alternate infinite;
         }
-        /* Keyframes maintained */
 
         /* ================================================= */
         /* === 4. HOME PAGE LAYOUT (Centered and Maximized) === */
@@ -118,15 +119,16 @@
 
         .home-content { 
             display: flex; flex-direction: column; align-items: center; 
-            justify-content: center; 
+            justify-content: center; /* PERFECTLY CENTERS CONTENT */
             width: 100%; max-width: 1000px; padding: 0 20px; gap: 20px; flex-grow: 1; 
         }
         @media (min-width: 768px) {
             .home-content { flex-direction: row; justify-content: center; align-items: center; gap: 50px; }
         }
-        .profile-frame { width: 250px; height: 250px; border: 3px solid #bf02c5; border-radius: 50%; }
-        .text-bubble { background: rgba(158, 0, 145, 0.7); padding: 20px; max-width: 600px; }
+        .profile-frame { width: 250px; height: 250px; border: 3px solid #bf02c5; border-radius: 50%; flex-shrink: 0; }
+        .text-bubble { background: rgba(158, 0, 145, 0.7); padding: 20px; max-width: 600px; flex-grow: 1; display: flex; flex-direction: column; justify-content: center;}
         .text-bubble h2 { font-size: 24px; color: #ee14bf; margin-bottom: 10px; }
+        .text-bubble p { font-size: 16px; color: #b0b0b0; line-height: 1.6; }
 
         /* ================================================= */
         /* === 5. CARD LAYOUTS (Optimized for No Scroll) === */
@@ -134,40 +136,64 @@
 
         .card-container {
             display: flex; flex-direction: row; flex-wrap: wrap; 
-            gap: 5px 0.5%; 
+            gap: 8px; /* Slightly more space than the tightest minimum */
             flex-grow: 1; 
             width: 100%; max-width: 1200px; 
             justify-content: center;
-            align-content: center; 
+            align-content: center; /* Vertically centers the entire block of cards */
+            padding: 5px 0; /* Minimal internal padding */
         }
-        
-        /* EDUCATION SPECIFIC SCALING */
+        .edu-details, .ach-text-content, .family-text-content { text-align: center; }
+
+        /* EDUCATION SCALING */
         .edu-card-item { 
-            width: 49%; padding: 5px 3px; margin: 3px 0; min-height: 160px; 
-            border: 1px solid rgba(0, 255, 255, 0.3);
+            width: 18%; min-height: 200px; padding: 5px 3px; 
+            margin: 0; /* Critical: No vertical margin here */
+            background: #1c1c1c; border-radius: 8px; border: 1px solid rgba(0, 255, 255, 0.3);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
         } 
-        .edu-level { font-size: 0.8rem; }
-        .edu-name { font-size: 0.65rem; }
+        .edu-level { font-size: 0.95rem; font-weight: 700; color: #00FFFF; margin-bottom: 2px; }
+        .edu-name { font-size: 0.75rem; color: #b0b0b0; line-height: 1.1; }
+        .logo-frame-edu { width: 60px; height: 60px; border-radius: 50%; overflow: hidden; flex-shrink: 0; margin-top: 5px; margin-bottom: 5px;}
 
-        /* ACHIEVEMENTS SPECIFIC SCALING */
+        /* ACHIEVEMENTS SCALING */
         .ach-card-item { 
-            display: flex; width: 49%; max-height: 120px; margin: 2px 0;
-            border: 2px solid #f174f1;
+            display: flex; width: 19%; max-height: 140px; 
+            margin: 2px 0; /* Minimal vertical margin */
+            background: #1c1c1c; border-radius: 8px; border: 2px solid #f174f1; overflow: hidden; 
         }
-        .ach-level { font-size: 0.6rem; }
-        .ach-name { font-size: 0.5rem; }
+        .ach-card-item img { width: 100%; height: 100%; object-fit: cover; }
+        .ach-image-container { flex-basis: 50%; padding: 0; }
+        .ach-text-content { padding: 3px 5px; flex-basis: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .ach-level { font-weight: 700; color: #3b76cf; font-size: 0.7rem; margin-bottom: 1px; line-height: 1.1; }
+        .ach-name { font-size: 0.6rem; color: #b0b0b0; line-height: 1.1; }
+        
+        /* Mobile adjustments for Achievements to fit 2 per row */
+        @media (max-width: 767px) {
+             .edu-card-item { width: 48%; min-height: 160px; }
+             .ach-card-item { width: 48%; max-height: 120px; }
+             .family-card-item { width: 95%; }
+        }
 
-        /* FAMILY PAGE SPECIFIC SCALING */
-        .family-card-item { width: 98%; max-width: 400px; margin: 5px 0; border: 2px solid #00FFFF; }
-        .family-title { font-size: 0.9rem; }
-        .family-description { font-size: 0.75rem; }
+        /* FAMILY PAGE SCALING */
+        .family-card-item {
+            width: 31%; max-width: 400px; 
+            margin: 5px 0; /* Minimal vertical margin */
+            border: 2px solid #00FFFF; background: #1c1c1c; border-radius: 8px;
+            display: flex; flex-direction: column;
+        }
+        .family-image-container { aspect-ratio: 4/3; overflow: hidden; flex-shrink: 0;}
+        .family-image-container img { width: 100%; height: 100%; object-fit: cover; }
+        .family-text-content { padding: 8px; } 
+        .family-title { font-size: 1.0rem; font-weight: 700; margin-bottom: 2px; color: #00FFFF;}
+        .family-description { font-size: 0.85rem; line-height: 1.3; color: #b0b0b0;}
 
         /* ================================================= */
-        /* === 6. CONTACT PAGE (WITH IMAGE PLACEHOLDER) === */
+        /* === 6. CONTACT PAGE (WITH IMAGE SUPPORT) === */
         /* ================================================= */
 
         #contact .page-content-wrapper {
-            justify-content: space-evenly;
+            justify-content: center;
         }
         .contact-content-grid {
             display: flex;
@@ -177,7 +203,6 @@
             width: 90%;
             max-width: 900px;
             flex-grow: 1;
-            min-height: 0;
         }
         .contact-image-placeholder {
             width: 40%;
@@ -199,27 +224,6 @@
             background: rgba(28, 28, 28, 0.8);
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-        .contact-details p {
-            font-size: 1rem;
-            line-height: 1.8;
-        }
-        .contact-details .instruction {
-            margin-top: 15px;
-            font-size: 0.8rem;
-            color: #00FFFF;
-        }
-
-        @media (max-width: 767px) {
-            .contact-content-grid {
-                flex-direction: column;
-                gap: 15px;
-            }
-            .contact-image-placeholder, .contact-details {
-                width: 100%;
-                max-width: 300px;
-            }
         }
     </style>
 </head>
@@ -409,16 +413,16 @@
       <div class="page-content-wrapper animate-in">
           <div class="contact-content-grid">
               <div class="contact-image-placeholder">
-                  <img src="https://placehold.co/300x350/222222/FFFFFF?text=Contact+Image+Here" 
+                  <img src="https://placehold.co/300x350/222222/FFFFFF?text=YOUR+CONTACT+IMAGE+HERE" 
                        alt="Contact Placeholder" 
-                       onerror="this.onerror=null; this.src='https://placehold.co/300x350/222222/FFFFFF?text=Contact+Image+Here';">
+                       onerror="this.onerror=null; this.src='https://placehold.co/300x350/222222/FFFFFF?text=YOUR+CONTACT+IMAGE+HERE';">
               </div>
               <div class="contact-details">
                   <p><strong>Email:</strong> your.email@example.com</p>
                   <p><strong>Phone:</strong> +63 9XX XXX XXXX</p>
                   <p><strong>Address:</strong> Your City, Philippines</p>
-                  <p class="instruction">
-                      To add your image, find the `&lt;img&gt;` tag inside the `contact-image-placeholder` div and replace the **`src`** attribute with your desired image URL.
+                  <p style="margin-top: 20px; font-size: 0.85rem; color: #00FFFF;">
+                      *To add your personal image to this page, find the `<img>` tag inside the `contact-image-placeholder` div and replace the **`src`** attribute with your desired image URL.
                   </p>
               </div>
           </div>
@@ -432,11 +436,8 @@
 
   <script>
       const loader = document.getElementById("pre-load");
-      const LOADER_DURATION = 500; // Time the loader is visible for transition (in ms)
+      const LOADER_DURATION = 500; 
 
-      /**
-       * Primary function to switch pages and handle navigation bar state.
-       */
       function showPage(pageId) {
           const pages = document.querySelectorAll('.page');
           pages.forEach(page => {
@@ -459,9 +460,6 @@
           });
       }
 
-      /**
-       * Triggers the loader, then executes the page switch after a delay.
-       */
       function triggerShowPage(pageId) {
           if (!loader) {
               showPage(pageId);
@@ -484,11 +482,9 @@
           showPage('home'); 
       });
 
-      /* Keyframes for animations (included in <style> block for simplicity) */
+      // Keyframes (must be defined in CSS, included here for context)
       // @keyframes float-up { to { transform: translateY(-175vh); } }
       // @keyframes sway-left-to-right { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
-      // @keyframes bobbing { ... }
-      // @keyframes color-change { ... }
       // @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
       // @keyframes slideInUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
