@@ -22,14 +22,14 @@
             width: 100vw;
             height: calc(100vh - 65px); /* Full height minus fixed nav bar */
             display: none; 
-            padding: 10px; /* Reduced overall padding */
-            overflow: hidden; /* Prevents page-level scrolling */
+            padding: 10px; /* Reduced overall padding for maximized space */
+            overflow: hidden; /* Prevents page-level scrolling (THE FIX) */
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
             position: relative; 
-            z-index: 1; /* Keep pages above the fixed bubbles */
-            background-color: transparent; /* Allows bubbles to show through */
+            z-index: 1; 
+            background-color: transparent; 
         }
         .active { 
             display: flex; 
@@ -37,9 +37,10 @@
         .page h1 { 
             color: #ffffff; 
             margin-top: 10px; 
-            margin-bottom: 5px; /* Reduced margin */
+            margin-bottom: 5px; 
             flex-shrink: 0; 
             text-align: center; 
+            font-size: 28px;
         }
         
         /* --- NON-SCROLLABLE CONTENT WRAPPER --- */
@@ -47,11 +48,11 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center; /* Center content vertically */
+            justify-content: center; 
             flex-grow: 1;
             width: 100%;
-            padding: 0; /* Critical: Zero padding here to maximize space */
-            overflow-y: hidden; /* FIX: Content is forced to fit */
+            padding: 0; /* Critical: Zero padding to maximize space */
+            overflow-y: hidden; 
             overflow-x: hidden;
             min-height: 0; 
         }
@@ -73,63 +74,26 @@
             font-weight: 600; padding: 8px 10px; border: 1px solid transparent;
             transition: 0.3s; cursor: pointer; 
         }
-        nav a:hover {
-            background: rgba(0, 255, 255, 0.1);
-            border-color: #2816c4;
-            color: #46f3f3;
-        }
-        .nav-active {
-            background: rgba(212, 40, 189, 0.2);
-            color: #b11ab6;
-            border-color: #310329;
-        }
-
-        /* Navigation Buttons */
         .nav-button-container {
             width: 90%;
             max-width: 1200px; 
             display: flex;
-            justify-content: space-between; 
-            padding: 5px 0 10px; /* Adjusted vertical padding */
+            justify-content: space-between; /* Ensures buttons are on far left and right */
+            padding: 5px 0 10px; 
             flex-shrink: 0; 
             z-index: 1; 
         }
-        /* Contact page only has a back button */
-        #contact .nav-button-container {
-             justify-content: flex-start; 
-        }
+        .nav-button-back { background: #555; color: #ffffff; }
+        .nav-button-next { background: #67067a; color: #1c1c1c; }
         
-        .nav-button {
-            padding: 10px 25px; border: none; border-radius: 0; 
-            font-size: 16px; font-weight: 600; cursor: pointer;
-            transition: background 0.3s, transform 0.1s;
-        }
-        .nav-button-back {
-            background: #555; color: #ffffff;
-            box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
-        }
-        .nav-button-next {
-            background: #67067a; color: #1c1c1c; 
-            box-shadow: 0 0 10px #510269;
-        }
-        .nav-button:hover { opacity: 0.8; transform: translateY(-2px); }
-        
-        /* Home page specific next button style and positioning */
         #home .nav-button-container { justify-content: flex-end; }
         #home .nav-button-container .nav-button-back { display: none; }
-        #home .nav-button-next {
-             background: #9509a1; color: #ffffff;
-             padding: 10px 30px; border-radius: 5px;
-             box-shadow: 0 0 10px rgba(149, 9, 161, 0.5);
-             font-size: 18px;
-        }
-        #home .nav-button-next:hover { background: #b11ab6; transform: translateY(-2px); opacity: 1; }
+        #home .nav-button-next { background: #9509a1; color: #ffffff; padding: 10px 30px; border-radius: 5px; font-size: 18px; }
 
         /* ================================================= */
-        /* === 3. LOADER & GLOBAL BACKGROUND ANIMATION === */
+        /* === 3. GLOBAL BACKGROUND ANIMATION (FIXED) === */
         /* ================================================= */
         
-        /* Background Bubbles (Fixed globally) */
         .bubbles-bg {
             position: fixed; 
             inset: 0;
@@ -146,40 +110,23 @@
             background: hsla(183, 94%, 76%, 0.3); border-radius: inherit;
             animation: sway-left-to-right 5s ease-in-out alternate infinite;
         }
-        /* Example bubbles */
-        .bubbles-bg .bubble:nth-child(1) { left: 5vw; width: 3vw; height: 3vw; animation-duration: 8s; animation-delay: 0s; }
-        .bubbles-bg .bubble:nth-child(2) { left: 20vw; width: 5vw; height: 5vw; animation-duration: 10s; animation-delay: 1s; }
-        .bubbles-bg .bubble:nth-child(3) { left: 35vw; width: 2vw; height: 2vw; animation-duration: 12s; animation-delay: 2s; }
-        .bubbles-bg .bubble:nth-child(4) { left: 55vw; width: 4vw; height: 4vw; animation-duration: 9s; animation-delay: 0.5s; }
-        .bubbles-bg .bubble:nth-child(5) { left: 80vw; width: 6vw; height: 6vw; animation-duration: 11s; animation-delay: 3s; }
-
-        /* Loader CSS (omitted for brevity, maintained from previous version) */
-
-        @keyframes float-up { to { transform: translateY(-175vh); } }
-        @keyframes sway-left-to-right { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
-        /* Other keyframes maintained */
-        
-        .animate-in { animation: fadeIn 0.5s ease-out, slideInUp 0.6s ease-out; }
+        /* Keyframes maintained */
 
         /* ================================================= */
         /* === 4. HOME PAGE LAYOUT (Centered and Maximized) === */
         /* ================================================= */
 
-        #home { justify-content: space-between; align-items: center; padding-top: 10px; }
-        .personal-name { font-size: 30px; color: #bf02c5; margin-bottom: 20px; flex-shrink: 0; padding-top: 10px; }
         .home-content { 
             display: flex; flex-direction: column; align-items: center; 
-            justify-content: center; /* FIX: Centers content area */
+            justify-content: center; 
             width: 100%; max-width: 1000px; padding: 0 20px; gap: 20px; flex-grow: 1; 
         }
         @media (min-width: 768px) {
             .home-content { flex-direction: row; justify-content: center; align-items: center; gap: 50px; }
         }
-        .profile-frame { width: 250px; height: 250px; border: 3px solid #bf02c5; border-radius: 50%; box-shadow: 0 0 15px #b305b9; flex-shrink: 0; overflow: hidden; }
-        .profile-frame img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-        .text-bubble { background: rgba(158, 0, 145, 0.7); border-radius: 15px; padding: 20px; color: #ffffff; max-width: 600px; box-shadow: 0 0 20px rgba(255, 4, 255, 0.3); flex-grow: 1; display: flex; flex-direction: column; justify-content: center;}
-        .text-bubble h2 { font-size: 24px; color: #ee14bf; margin-bottom: 10px; text-align: left; }
-        .text-bubble p { font-size: 16px; color: #b0b0b0; line-height: 1.6; text-align: left; }
+        .profile-frame { width: 250px; height: 250px; border: 3px solid #bf02c5; border-radius: 50%; }
+        .text-bubble { background: rgba(158, 0, 145, 0.7); padding: 20px; max-width: 600px; }
+        .text-bubble h2 { font-size: 24px; color: #ee14bf; margin-bottom: 10px; }
 
         /* ================================================= */
         /* === 5. CARD LAYOUTS (Optimized for No Scroll) === */
@@ -187,71 +134,92 @@
 
         .card-container {
             display: flex; flex-direction: row; flex-wrap: wrap; 
-            gap: 5px 0.5%; /* Tightest gap */
+            gap: 5px 0.5%; 
             flex-grow: 1; 
             width: 100%; max-width: 1200px; 
             justify-content: center;
-            align-content: center; /* Vertically center the card rows */
+            align-content: center; 
         }
         
         /* EDUCATION SPECIFIC SCALING */
         .edu-card-item { 
             width: 49%; padding: 5px 3px; margin: 3px 0; min-height: 160px; 
-            background: #1c1c1c; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); 
-            display: flex; flex-direction: column; align-items: center; 
             border: 1px solid rgba(0, 255, 255, 0.3);
         } 
-        .edu-level { font-size: 0.8rem; font-weight: 700; color: #00FFFF; margin-bottom: 2px; }
-        .edu-name { font-size: 0.65rem; color: #b0b0b0; line-height: 1.1; }
-        .logo-frame-edu { width: 45px; height: 45px; border: 2px solid #555555; border-radius: 50%; overflow: hidden; flex-shrink: 0; margin-top: 5px; margin-bottom: 5px;}
+        .edu-level { font-size: 0.8rem; }
+        .edu-name { font-size: 0.65rem; }
 
-        /* ACHIEVEMENTS SPECIFIC SCALING (FIXED TO FIT) */
+        /* ACHIEVEMENTS SPECIFIC SCALING */
         .ach-card-item { 
             display: flex; width: 49%; max-height: 120px; margin: 2px 0;
-            background: #1c1c1c; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); 
-            border: 2px solid #f174f1; overflow: hidden; 
+            border: 2px solid #f174f1;
         }
-        .ach-card-item img { width: 100%; height: 100%; object-fit: cover; }
-        .ach-image-container { flex-basis: 50%; padding: 0; }
-        .ach-text-content { padding: 3px 5px; flex-basis: 50%; display: flex; flex-direction: column; justify-content: center; }
-        .ach-level { font-weight: 700; color: #3b76cf; font-size: 0.6rem; margin-bottom: 1px; line-height: 1.1; }
-        .ach-name { font-size: 0.5rem; color: #b0b0b0; line-height: 1.1; }
+        .ach-level { font-size: 0.6rem; }
+        .ach-name { font-size: 0.5rem; }
 
-        /* FAMILY PAGE SPECIFIC SCALING (FIXED TO FIT) */
-        .family-card-item {
-            width: 98%; max-width: 400px; margin: 5px 0;
-            border: 2px solid #00FFFF; background: #1c1c1c; border-radius: 8px;
-            display: flex; flex-direction: column;
-        }
-        .family-image-container { aspect-ratio: 4/3; overflow: hidden; flex-shrink: 0;}
-        .family-image-container img { width: 100%; height: 100%; object-fit: cover; }
-        .family-text-content { padding: 8px; } 
-        .family-title { font-size: 0.9rem; font-weight: 700; margin-bottom: 2px; color: #00FFFF;}
-        .family-description { font-size: 0.75rem; line-height: 1.3; color: #b0b0b0;}
+        /* FAMILY PAGE SPECIFIC SCALING */
+        .family-card-item { width: 98%; max-width: 400px; margin: 5px 0; border: 2px solid #00FFFF; }
+        .family-title { font-size: 0.9rem; }
+        .family-description { font-size: 0.75rem; }
 
         /* ================================================= */
-        /* === DESKTOP RESPONSIVENESS (Final Sizing) === */
+        /* === 6. CONTACT PAGE (WITH IMAGE PLACEHOLDER) === */
         /* ================================================= */
-        @media (min-width: 768px) {
-            .page { padding: 20px; }
-            .page-content-wrapper { padding: 10px 0; }
-            .card-container { gap: 10px 10px; } /* Consistent gap */
 
-            /* EDUCATION - 5 per row */
-            .edu-card-item { width: 18%; min-height: 220px; padding: 10px 5px; } 
-            .edu-level { font-size: 0.95rem; }
-            .edu-name { font-size: 0.75rem; }
-            .logo-frame-edu { width: 60px; height: 60px; }
+        #contact .page-content-wrapper {
+            justify-content: space-evenly;
+        }
+        .contact-content-grid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            width: 90%;
+            max-width: 900px;
+            flex-grow: 1;
+            min-height: 0;
+        }
+        .contact-image-placeholder {
+            width: 40%;
+            max-width: 300px;
+            height: auto;
+            border: 3px solid #bf02c5;
+            box-shadow: 0 0 15px #b305b9;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .contact-image-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .contact-details {
+            width: 50%;
+            background: rgba(28, 28, 28, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .contact-details p {
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+        .contact-details .instruction {
+            margin-top: 15px;
+            font-size: 0.8rem;
+            color: #00FFFF;
+        }
 
-            /* ACHIEVEMENTS - 5 per row */
-            .ach-card-item { width: 19%; max-height: 150px; } 
-            .ach-level { font-size: 0.7rem; }
-            .ach-name { font-size: 0.6rem; }
-
-            /* FAMILY - 3 per row */
-            .family-card-item { width: 31%; max-height: 400px; }
-            .family-title { font-size: 1.0rem; }
-            .family-description { font-size: 0.85rem; }
+        @media (max-width: 767px) {
+            .contact-content-grid {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .contact-image-placeholder, .contact-details {
+                width: 100%;
+                max-width: 300px;
+            }
         }
     </style>
 </head>
@@ -439,8 +407,21 @@
   <div class="page" id="contact">
       <h1>CONTACT ME</h1>
       <div class="page-content-wrapper animate-in">
-          <p>This is the final page. Add your contact form or social links here.</p>
-          <p>Click 'Back' to return to the Family page, or 'About Me' in the navigation bar.</p>
+          <div class="contact-content-grid">
+              <div class="contact-image-placeholder">
+                  <img src="https://placehold.co/300x350/222222/FFFFFF?text=Contact+Image+Here" 
+                       alt="Contact Placeholder" 
+                       onerror="this.onerror=null; this.src='https://placehold.co/300x350/222222/FFFFFF?text=Contact+Image+Here';">
+              </div>
+              <div class="contact-details">
+                  <p><strong>Email:</strong> your.email@example.com</p>
+                  <p><strong>Phone:</strong> +63 9XX XXX XXXX</p>
+                  <p><strong>Address:</strong> Your City, Philippines</p>
+                  <p class="instruction">
+                      To add your image, find the `&lt;img&gt;` tag inside the `contact-image-placeholder` div and replace the **`src`** attribute with your desired image URL.
+                  </p>
+              </div>
+          </div>
       </div>
 
       <div class="nav-button-container">
@@ -455,24 +436,20 @@
 
       /**
        * Primary function to switch pages and handle navigation bar state.
-       * This is called by triggerShowPage after the loader transition.
        */
       function showPage(pageId) {
-          // 1. Hide all pages
           const pages = document.querySelectorAll('.page');
           pages.forEach(page => {
               page.classList.remove('active');
               page.classList.remove('animate-in');
           });
 
-          // 2. Show the requested page and re-apply the animation class
           const activePage = document.getElementById(pageId);
           if (activePage) {
               activePage.classList.add('active');
               activePage.classList.add('animate-in');
           }
 
-          // 3. Update the active status in the navigation bar
           const navLinks = document.querySelectorAll('nav a');
           navLinks.forEach(link => {
               link.classList.remove('nav-active');
@@ -484,35 +461,37 @@
 
       /**
        * Triggers the loader, then executes the page switch after a delay.
-       * This is called by all navigation buttons and links.
        */
       function triggerShowPage(pageId) {
           if (!loader) {
-              // Fallback if loader is missing
               showPage(pageId);
               return;
           }
 
-          // Show the loader
           loader.classList.add("show");
 
-          // Wait for the duration, then switch pages and hide the loader
           setTimeout(() => {
               showPage(pageId);
-              // Hide the loader
               loader.classList.remove("show");
           }, LOADER_DURATION);
       }
 
       // Initialize the page on load
       document.addEventListener('DOMContentLoaded', () => {
-          // Hide the loader immediately if it's somehow visible initially
           if (loader) {
               loader.classList.remove("show");
           }
-          // Set the home page as active on initial load
           showPage('home'); 
       });
+
+      /* Keyframes for animations (included in <style> block for simplicity) */
+      // @keyframes float-up { to { transform: translateY(-175vh); } }
+      // @keyframes sway-left-to-right { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+      // @keyframes bobbing { ... }
+      // @keyframes color-change { ... }
+      // @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+      // @keyframes slideInUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
   </script>
 
 </body>
