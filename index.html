@@ -23,12 +23,12 @@
             height: calc(100vh - 65px); /* Full height minus fixed nav bar */
             display: none; 
             padding: 10px; /* Minimal overall padding */
-            overflow: hidden; /* Critical: Prevents page-level scrolling */
+            overflow: hidden; /* CRITICAL: Prevents page-level scrolling */
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
             position: relative; 
-            z-index: 1; /* Above the bubbles */
+            z-index: 1; 
             background-color: transparent; 
         }
         .active { 
@@ -37,7 +37,7 @@
         .page h1 { 
             color: #ffffff; 
             margin-top: 10px; 
-            margin-bottom: 5px; /* Minimal top/bottom margin */
+            margin-bottom: 5px; /* Minimal top/bottom margin for H1 */
             flex-shrink: 0; 
             text-align: center; 
             font-size: 28px;
@@ -48,10 +48,10 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center; /* Vertically centers the card container */
+            justify-content: center; /* Vertically centers the card container block */
             flex-grow: 1;
             width: 100%;
-            padding: 0; 
+            padding: 0; /* Critical: Zero padding to maximize space */
             overflow-y: hidden; /* THE FINAL FIX for card areas */
             overflow-x: hidden;
             min-height: 0; 
@@ -78,8 +78,8 @@
             width: 90%;
             max-width: 1200px; 
             display: flex;
-            justify-content: space-between; /* Ensures buttons are on far left and right */
-            padding: 5px 0 10px; 
+            justify-content: space-between; 
+            padding: 5px 0 10px; /* Minimal vertical padding */
             flex-shrink: 0; 
             z-index: 1; 
         }
@@ -114,12 +114,12 @@
         }
 
         /* ================================================= */
-        /* === 4. HOME PAGE LAYOUT (Centered and Maximized) === */
+        /* === 4. HOME PAGE LAYOUT (Centered) === */
         /* ================================================= */
 
         .home-content { 
             display: flex; flex-direction: column; align-items: center; 
-            justify-content: center; /* PERFECTLY CENTERS CONTENT */
+            justify-content: center; 
             width: 100%; max-width: 1000px; padding: 0 20px; gap: 20px; flex-grow: 1; 
         }
         @media (min-width: 768px) {
@@ -127,8 +127,6 @@
         }
         .profile-frame { width: 250px; height: 250px; border: 3px solid #bf02c5; border-radius: 50%; flex-shrink: 0; }
         .text-bubble { background: rgba(158, 0, 145, 0.7); padding: 20px; max-width: 600px; flex-grow: 1; display: flex; flex-direction: column; justify-content: center;}
-        .text-bubble h2 { font-size: 24px; color: #ee14bf; margin-bottom: 10px; }
-        .text-bubble p { font-size: 16px; color: #b0b0b0; line-height: 1.6; }
 
         /* ================================================= */
         /* === 5. CARD LAYOUTS (Optimized for No Scroll) === */
@@ -136,65 +134,56 @@
 
         .card-container {
             display: flex; flex-direction: row; flex-wrap: wrap; 
-            gap: 8px; /* Slightly more space than the tightest minimum */
+            gap: 8px; 
             flex-grow: 1; 
             width: 100%; max-width: 1200px; 
             justify-content: center;
             align-content: center; /* Vertically centers the entire block of cards */
             padding: 5px 0; /* Minimal internal padding */
         }
-        .edu-details, .ach-text-content, .family-text-content { text-align: center; }
-
-        /* EDUCATION SCALING */
-        .edu-card-item { 
-            width: 18%; min-height: 200px; padding: 5px 3px; 
-            margin: 0; /* Critical: No vertical margin here */
-            background: #1c1c1c; border-radius: 8px; border: 1px solid rgba(0, 255, 255, 0.3);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-        } 
-        .edu-level { font-size: 0.95rem; font-weight: 700; color: #00FFFF; margin-bottom: 2px; }
-        .edu-name { font-size: 0.75rem; color: #b0b0b0; line-height: 1.1; }
-        .logo-frame-edu { width: 60px; height: 60px; border-radius: 50%; overflow: hidden; flex-shrink: 0; margin-top: 5px; margin-bottom: 5px;}
-
-        /* ACHIEVEMENTS SCALING */
-        .ach-card-item { 
-            display: flex; width: 19%; max-height: 140px; 
-            margin: 2px 0; /* Minimal vertical margin */
-            background: #1c1c1c; border-radius: 8px; border: 2px solid #f174f1; overflow: hidden; 
-        }
-        .ach-card-item img { width: 100%; height: 100%; object-fit: cover; }
-        .ach-image-container { flex-basis: 50%; padding: 0; }
-        .ach-text-content { padding: 3px 5px; flex-basis: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .ach-level { font-weight: 700; color: #3b76cf; font-size: 0.7rem; margin-bottom: 1px; line-height: 1.1; }
-        .ach-name { font-size: 0.6rem; color: #b0b0b0; line-height: 1.1; }
         
-        /* Mobile adjustments for Achievements to fit 2 per row */
+        /* DESKTOP (5 per row for Education & Achievements) */
+        @media (min-width: 768px) {
+            /* Education Cards */
+            .edu-card-item { 
+                width: 19%; /* 19 * 5 = 95% */
+                min-height: 200px; padding: 5px 3px; 
+                margin: 0; 
+                display: flex; flex-direction: column; align-items: center; justify-content: center;
+            } 
+            /* Achievement Cards */
+            .ach-card-item { 
+                width: 19%; 
+                max-height: 140px; 
+                margin: 2px 0;
+            }
+            /* Family Cards (3 per row) */
+            .family-card-item {
+                width: 31%; max-width: 400px; 
+                margin: 5px 0;
+            }
+        }
+        
+        /* MOBILE (2 per row for Education & Achievements) */
         @media (max-width: 767px) {
              .edu-card-item { width: 48%; min-height: 160px; }
              .ach-card-item { width: 48%; max-height: 120px; }
              .family-card-item { width: 95%; }
         }
 
-        /* FAMILY PAGE SCALING */
-        .family-card-item {
-            width: 31%; max-width: 400px; 
-            margin: 5px 0; /* Minimal vertical margin */
-            border: 2px solid #00FFFF; background: #1c1c1c; border-radius: 8px;
-            display: flex; flex-direction: column;
-        }
-        .family-image-container { aspect-ratio: 4/3; overflow: hidden; flex-shrink: 0;}
-        .family-image-container img { width: 100%; height: 100%; object-fit: cover; }
-        .family-text-content { padding: 8px; } 
-        .family-title { font-size: 1.0rem; font-weight: 700; margin-bottom: 2px; color: #00FFFF;}
-        .family-description { font-size: 0.85rem; line-height: 1.3; color: #b0b0b0;}
+        /* Generic Card Styling */
+        .edu-level, .ach-level { font-weight: 700; color: #00FFFF; margin-bottom: 2px; }
+        .edu-name, .ach-name { color: #b0b0b0; line-height: 1.1; }
+        .logo-frame-edu { width: 60px; height: 60px; border-radius: 50%; overflow: hidden; flex-shrink: 0; margin-top: 5px; margin-bottom: 5px;}
+        .ach-text-content { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .ach-level { font-size: 0.7rem; }
+        .ach-name { font-size: 0.6rem; }
+
 
         /* ================================================= */
         /* === 6. CONTACT PAGE (WITH IMAGE SUPPORT) === */
         /* ================================================= */
 
-        #contact .page-content-wrapper {
-            justify-content: center;
-        }
         .contact-content-grid {
             display: flex;
             justify-content: center;
@@ -240,17 +229,7 @@
 
   <div id="pre-load" class="loader">
      <div class="loader-inner">
-        <div class="loader-logo">
-          <svg viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M16.5 12L13 14.333V19L20 14.333V9.667L13 5V9.667L16.5 12Z" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
         </div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-     </div>
   </div>
 
   <nav>
@@ -439,18 +418,21 @@
       const LOADER_DURATION = 500; 
 
       function showPage(pageId) {
+          // 1. Hide all pages and animations
           const pages = document.querySelectorAll('.page');
           pages.forEach(page => {
               page.classList.remove('active');
               page.classList.remove('animate-in');
           });
 
+          // 2. Show the requested page
           const activePage = document.getElementById(pageId);
           if (activePage) {
               activePage.classList.add('active');
               activePage.classList.add('animate-in');
           }
 
+          // 3. Update the active status in the navigation bar
           const navLinks = document.querySelectorAll('nav a');
           navLinks.forEach(link => {
               link.classList.remove('nav-active');
@@ -466,10 +448,12 @@
               return;
           }
 
+          // Show the loader to cover the transition
           loader.classList.add("show");
 
           setTimeout(() => {
               showPage(pageId);
+              // Hide the loader after the page transition is complete
               loader.classList.remove("show");
           }, LOADER_DURATION);
       }
@@ -477,17 +461,12 @@
       // Initialize the page on load
       document.addEventListener('DOMContentLoaded', () => {
           if (loader) {
+              // Ensure the loader is hidden initially
               loader.classList.remove("show");
           }
+          // Set the home page as active on initial load
           showPage('home'); 
       });
-
-      // Keyframes (must be defined in CSS, included here for context)
-      // @keyframes float-up { to { transform: translateY(-175vh); } }
-      // @keyframes sway-left-to-right { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
-      // @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-      // @keyframes slideInUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
   </script>
 
 </body>
