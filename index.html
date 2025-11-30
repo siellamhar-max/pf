@@ -1040,31 +1040,56 @@
     </script>
     <script>
   document.addEventListener("DOMContentLoaded", function() {
-  const loader = document.getElementById("pre-load");
+    const loader = document.getElementById("pre-load");
 
-  function showLoader(duration = 2000, callback) {
-    loader.classList.add("show"); // show loader
-    setTimeout(() => {
-      loader.classList.remove("show"); // hide loader after duration
-      if(callback) callback();
-    }, duration);
-  }
-
-  // Show loader on initial page load
-  showLoader(2000);
-
-  // Add loader for all internal links
-  document.querySelectorAll("a").forEach(link => {
-    if(link.hostname === window.location.hostname) {
-      link.addEventListener("click", function(e) {
-        e.preventDefault();
-        const href = this.href;
-        showLoader(2000, () => {
-          window.location.href = href;
-        });
-      });
+    function showLoader(duration = 2000, callback) {
+        loader.classList.add("show");
+        setTimeout(() => {
+            loader.classList.remove("show");
+            if (callback) callback();
+        }, duration);
     }
-  });
+
+    // Show loader on first page load
+    showLoader();
+
+    // Handle all link clicks
+    document.querySelectorAll("a[href]").forEach(link => {
+        link.addEventListener("click", e => {
+            const href = link.getAttribute("href");
+
+            // Skip external or anchor links
+            if (href.startsWith("#") || href.startsWith("http")) return;
+
+            e.preventDefault();
+            showLoader(2000, () => {
+                window.location.href = href;
+            });
+        });
+    });
+
+    // Handle navigation buttons (buttons with data-href or onclick)
+    document.querySelectorAll("button").forEach(btn => {
+        btn.addEventListener("click", e => {
+            const target = btn.getAttribute("data-href") || btn.getAttribute("onclick");
+            if (!target) return; // no navigation, ignore
+
+            e.preventDefault();
+            showLoader(2000, () => {
+                // Navigate if data-href is present
+                if (btn.dataset.href) window.location.href = btn.dataset.href;
+                // Execute onclick if exists
+                else if (btn.onclick) btn.onclick();
+            });
+        });
+    });
+
+    // Optional: handle form submissions
+    document.querySelectorAll("form").forEach(form => {
+        form.addEventListener("submit", e => {
+            showLoader(2000);
+        });
+    });
 });
 </script>
 
