@@ -17,7 +17,7 @@
             overflow: hidden; /* CRITICAL: Prevents body scrolling */
         }
         
-        /* Navigation Bar Height */
+        /* Define fixed sizes */
         :root {
             --nav-height: 65px;
             --page-padding: 10px;
@@ -28,7 +28,7 @@
             width: 100vw;
             height: calc(100vh - var(--nav-height)); /* Full height minus fixed nav bar */
             display: none; 
-            padding: var(--page-padding); /* Minimal overall padding */
+            padding: var(--page-padding); 
             overflow: hidden; /* CRITICAL: Prevents page-level scrolling */
             flex-direction: column;
             justify-content: space-between;
@@ -43,7 +43,7 @@
         .page h1 { 
             color: #ffffff; 
             margin-top: 5px; 
-            margin-bottom: 5px; /* Minimal top/bottom margin for H1 */
+            margin-bottom: 5px; 
             flex-shrink: 0; 
             text-align: center; 
             font-size: 28px;
@@ -54,16 +54,16 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center; /* Vertically centers the card container block */
+            justify-content: center; 
             flex-grow: 1; /* Takes all available height */
             width: 100%;
             padding: 0; 
-            overflow: hidden; /* Ensures this area is constrained */
+            overflow: hidden; 
             min-height: 0; 
         }
 
         /* ================================================= */
-        /* === 2. NAVIGATION & BUTTONS === */
+        /* === 2. NAVIGATION & BUTTONS (FIXED) === */
         /* ================================================= */
 
         /* Navigation Bar */
@@ -74,74 +74,88 @@
             z-index: 10; 
             position: sticky; top: 0;
         }
-        nav a {
-            color: #ffffff; text-decoration: none; font-size: 14px; 
-            font-weight: 600; padding: 8px 10px; border: 1px solid transparent;
-            transition: 0.3s; cursor: pointer; 
-        }
+        nav a { color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 600; padding: 8px 10px; transition: 0.3s; cursor: pointer; }
+        
         .nav-button-container {
-            width: 90%;
-            max-width: 1200px; 
-            display: flex;
-            justify-content: space-between; 
-            padding: 5px 0 5px; /* Minimal vertical padding */
+            width: 90%; max-width: 1200px; display: flex;
+            justify-content: space-between; /* Pushes Back/Next to ends */
+            padding: 5px 0 5px; 
             flex-shrink: 0; 
             z-index: 1; 
         }
-        /* Home page specific: Next button only, right aligned */
+        
+        /* Specific Fixes for Home/Contact Buttons */
         #home .nav-button-container { justify-content: flex-end; }
         #home .nav-button-container .nav-button-back { display: none; }
-        .nav-button-next { 
+        #contact .nav-button-container .nav-button-next { display: none; } /* Hides Next button on last page */
+        
+        .nav-button {
              background: #9509a1; color: #ffffff;
              padding: 10px 30px; border-radius: 5px;
-             font-size: 18px;
+             font-size: 18px; border: none; cursor: pointer; transition: 0.3s;
         }
-        .nav-button {
-            border: none;
-            cursor: pointer;
-            transition: 0.3s;
+        .nav-button-back {
+            background: #252525;
         }
+
 
         /* ================================================= */
         /* === 3. GLOBAL BACKGROUND ANIMATION (FIXED) === */
         /* ================================================= */
         
         .bubbles-bg {
-            position: fixed; /* Ensures it stays in the same place on all pages */
+            position: fixed; 
             inset: 0;
             width: 100%; height: 100%; 
-            z-index: 0; 
+            z-index: 0; /* Ensures it is behind all content */
             overflow: hidden;
         }
-        /* Bubble styles and keyframes omitted for brevity, but exist */
+        .bubbles-bg .bubble {
+            position: absolute; bottom: -75%; border-radius: 50%;
+            width: 80px; height: 80px; 
+            background: rgba(0, 255, 255, 0.2); 
+            animation: float-up 10s ease-in infinite;
+        }
+        /* Custom Bubble Styles (mimicking the reference site) */
+        .bubbles-bg .bubble:nth-child(1) { width: 40px; height: 40px; left: 10%; animation-duration: 8s; background: rgba(255, 0, 255, 0.2); }
+        .bubbles-bg .bubble:nth-child(2) { width: 120px; height: 120px; left: 30%; animation-duration: 15s; }
+        .bubbles-bg .bubble:nth-child(3) { width: 60px; height: 60px; left: 50%; animation-duration: 7s; background: rgba(0, 255, 100, 0.2); }
+        .bubbles-bg .bubble:nth-child(4) { width: 90px; height: 90px; left: 70%; animation-duration: 12s; background: rgba(255, 255, 0, 0.2); }
+        .bubbles-bg .bubble:nth-child(5) { width: 50px; height: 50px; left: 90%; animation-duration: 9s; }
 
+
+        /* Keyframes for Animation */
+        @keyframes float-up { 
+            0% { transform: translateY(0) scale(0.5); opacity: 0.5; } 
+            100% { transform: translateY(-175vh) scale(1.5); opacity: 0; } 
+        }
+        
         /* ================================================= */
-        /* === 4. HOME PAGE LAYOUT (Centered) === */
+        /* === 4. HOME PAGE LAYOUT === */
         /* ================================================= */
 
         .home-content { 
-            display: flex; flex-direction: column; align-items: center; 
-            justify-content: center; /* Centers vertically and horizontally */
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
             width: 100%; max-width: 1000px; padding: 0 20px; gap: 20px; flex-grow: 1; 
         }
         @media (min-width: 768px) {
-            .home-content { flex-direction: row; justify-content: center; align-items: center; gap: 50px; }
+            .home-content { flex-direction: row; gap: 50px; }
         }
         .profile-frame { width: 250px; height: 250px; border: 3px solid #bf02c5; border-radius: 50%; flex-shrink: 0; overflow: hidden;}
         .profile-frame img { width: 100%; height: 100%; object-fit: cover; }
         .text-bubble { background: rgba(158, 0, 145, 0.7); padding: 20px; max-width: 600px; border-radius: 8px;}
 
         /* ================================================= */
-        /* === 5. CARD LAYOUTS (Optimized for No Scroll) === */
+        /* === 5. CARD LAYOUTS (Sizing Fixed for No Scroll) === */
         /* ================================================= */
 
         .card-container {
             display: flex; flex-direction: row; flex-wrap: wrap; 
-            gap: 5px 8px; /* TIGHT vertical gap */
+            gap: 5px 8px; /* Optimized gap for tight fit */
             flex-grow: 1; 
             width: 100%; max-width: 1200px; 
             justify-content: center;
-            align-content: center; /* Centers the whole block of cards */
+            align-content: center; 
             padding: 5px 0; 
         }
         
@@ -159,66 +173,24 @@
              .family-card-item { width: 95%; }
         }
 
-        /* Generic Card Styling */
-        .edu-card-item, .ach-card-item, .family-card-item {
-            background: #1c1c1c; border-radius: 8px; overflow: hidden;
-            border: 1px solid #333;
-        }
+        /* Image and Logo Sizing Fixes */
         .edu-card-item { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 5px 3px; }
         .logo-frame-edu { width: 60px; height: 60px; border-radius: 50%; overflow: hidden; flex-shrink: 0; margin-top: 5px; margin-bottom: 5px;}
-        .edu-details, .family-text-content { text-align: center; }
-        .edu-level { font-size: 0.95rem; font-weight: 700; color: #00FFFF; margin-bottom: 2px; }
-        .edu-name { font-size: 0.75rem; color: #b0b0b0; line-height: 1.1; }
-
-        /* Achievements specifics */
+        .logo-frame-edu img { width: 100%; height: 100%; object-fit: contain; background: #ffffff; /* White background for logos if transparent */ }
+        
         .ach-card-item { display: flex; }
-        .ach-image-container { flex-basis: 50%; padding: 0; }
         .ach-image-container img { width: 100%; height: 100%; object-fit: cover; }
-        .ach-text-content { padding: 3px 5px; flex-basis: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        .ach-level { font-weight: 700; color: #f174f1; font-size: 0.7rem; line-height: 1.1; }
-        .ach-name { font-size: 0.6rem; color: #b0b0b0; line-height: 1.1; }
 
-        /* Family specifics */
         .family-image-container { aspect-ratio: 4/3; overflow: hidden; flex-shrink: 0;}
         .family-image-container img { width: 100%; height: 100%; object-fit: cover; }
-        .family-text-content { padding: 8px; } 
-        .family-title { font-size: 1.0rem; font-weight: 700; margin-bottom: 2px; color: #00FFFF;}
-        .family-description { font-size: 0.85rem; line-height: 1.3; color: #b0b0b0;}
 
 
         /* ================================================= */
-        /* === 6. CONTACT PAGE (WITH IMAGE SUPPORT) === */
+        /* === 6. CONTACT PAGE === */
         /* ================================================= */
 
-        .contact-content-grid {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 30px;
-            width: 90%;
-            max-width: 900px;
-            flex-grow: 1;
-        }
-        .contact-image-placeholder {
-            width: 40%;
-            max-width: 300px;
-            height: auto;
-            border: 3px solid #bf02c5;
-            box-shadow: 0 0 15px #b305b9;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
         .contact-image-placeholder img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-        .contact-details {
-            width: 50%;
-            background: rgba(28, 28, 28, 0.8);
-            padding: 20px;
-            border-radius: 10px;
+            width: 100%; height: 100%; object-fit: cover; display: block;
         }
     </style>
 </head>
@@ -231,7 +203,7 @@
       <div class="bubble"></div>
       <div class="bubble"></div>
       <div class="bubble"></div>
-      </div>
+  </div>
 
   <div id="pre-load" class="loader">
      <div class="loader-inner">
@@ -265,6 +237,7 @@
       </div>
 
       <div class="nav-button-container">
+          <button class="nav-button nav-button-back" onclick="triggerShowPage('family')"><< Back</button>
           <button class="nav-button nav-button-next" onclick="triggerShowPage('education')">Next >></button>
       </div>
   </div>
@@ -414,12 +387,11 @@
 
       <div class="nav-button-container">
           <button class="nav-button nav-button-back" onclick="triggerShowPage('family')"><< Back</button>
-          </div>
+          <button class="nav-button nav-button-next" onclick="triggerShowPage('home')">Next >></button> </div>
   </div>
 
 
   <script>
-      // Placeholder for loading animation logic
       const loader = document.getElementById("pre-load");
       const LOADER_DURATION = 500; 
 
@@ -433,11 +405,11 @@
               page.classList.remove('active');
           });
 
-          // 2. Show the requested page and add animation class
+          // 2. Show the requested page
           const activePage = document.getElementById(pageId);
           if (activePage) {
               activePage.classList.add('active');
-              // You can add a CSS class like 'animate-in' here for transitions
+              // Note: For transitions, you would re-add the 'animate-in' class here
           }
 
           // 3. Update the active status in the navigation bar
@@ -451,29 +423,28 @@
       }
 
       /**
-       * Triggers a loading screen before switching the page.
+       * Triggers a smooth page switch with a short delay (for visual effect).
        */
       function triggerShowPage(pageId) {
-          // Placeholder loader implementation
+          // In a real implementation, you would animate the loader here
+          // For now, we simulate a delay for the page switch effect.
+          
           if (loader) {
-              // In a real implementation, you'd add a 'show' class to the loader
-              // loader.classList.add("show");
+               // loader.classList.add("show"); // Uncomment this if you add loader CSS
           }
 
           setTimeout(() => {
               showPage(pageId);
               if (loader) {
-                  // loader.classList.remove("show");
+                  // loader.classList.remove("show"); // Uncomment this if you add loader CSS
               }
-          }, LOADER_DURATION); // Simulates a slight delay
+          }, LOADER_DURATION / 2); // Shorter delay for responsive feeling
       }
 
       // Initialize the page on load
       document.addEventListener('DOMContentLoaded', () => {
-          // Start on the home page
           showPage('home'); 
       });
-
   </script>
 
 </body>
