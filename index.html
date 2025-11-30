@@ -919,8 +919,7 @@ body {
         </div>
 
         <div class="nav-button-container">
-            <button class="nav-button nav-button-back" onclick="showPage('education')"><< Back</button>
-            <button class="nav-button nav-button-next" onclick="showPage('education')">Next >></button>
+            <button class="nav-button nav-button-next" data-href="education.html">Next >></button>
         </div>
     </div>
 </div>
@@ -1227,9 +1226,9 @@ body {
     <script>
   document.addEventListener("DOMContentLoaded", function() {
     const loader = document.getElementById("pre-load");
-    const duration = 2000; // loader duration (2s, adjust as needed)
+    const duration = 2000; // loader duration in ms
 
-    // Show loader
+    // Function to show loader and optionally run a callback
     function showLoader(callback) {
         if (!loader) return;
         loader.classList.add("show");
@@ -1239,13 +1238,13 @@ body {
         }, duration);
     }
 
-    // Show loader only on initial load of #home page
+    // Show loader on initial page load for #home
     const currentPage = document.querySelector(".page.active");
     if (currentPage && currentPage.id === "home") {
         showLoader();
     }
 
-    // Handle navigation buttons (buttons with data-href)
+    // Handle navigation buttons with data-href
     document.querySelectorAll("button[data-href]").forEach(btn => {
         btn.addEventListener("click", e => {
             e.preventDefault();
@@ -1255,17 +1254,17 @@ body {
         });
     });
 
-    // Handle anchor links (internal)
+    // Handle internal anchor links (relative URLs)
     document.querySelectorAll("a[href]").forEach(link => {
         link.addEventListener("click", e => {
             const href = link.getAttribute("href");
-            if (!href || href.startsWith("#") || href.startsWith("http")) return; // skip external/anchors
+            if (!href || href.startsWith("#") || href.startsWith("http")) return; // skip anchors/external
             e.preventDefault();
             showLoader(() => window.location.href = href);
         });
     });
 
-    // Optional: handle forms
+    // Handle forms with loader before submit
     document.querySelectorAll("form").forEach(form => {
         form.addEventListener("submit", e => {
             e.preventDefault();
