@@ -15,55 +15,56 @@
         }
 
 /* ===== Loader CSS ===== */
-        #pre-load {
-          background: #000;
-          position: fixed;
-          inset: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: 999999;
-        }
-        #pre-load .loader-inner {
-          --loader-background: linear-gradient(0deg, rgba(50,50,50,.2) 0%, rgba(100,100,100,.2) 100%);
-          position: relative;
-          height: 250px;
-          aspect-ratio: 1;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        #pre-load .loader-inner .loader-logo {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 60px;
-          height: 60px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          animation: color-change 2s infinite ease-in-out;
-          z-index: 999;
-        }
-        #pre-load .loader-inner .loader-logo svg {
-          width: 100%;
-          height: 100%;
-        }
-        #pre-load .loader-inner .box {
-          position: absolute;
-          background: var(--loader-background);
-          border-radius: 50%;
-          border-top: 1px solid rgb(100,100,100);
-          box-shadow: rgba(0,0,0,.3) 0 10px 10px 0;
-          backdrop-filter: blur(5px);
-          animation: ripple 2s infinite ease-in-out;
-        }
-        #pre-load .loader-inner .box:nth-child(1) { width: 25%; aspect-ratio: 1/1; z-index: 99; }
-        #pre-load .loader-inner .box:nth-child(2) { inset: 30%; z-index: 98; border-color: rgba(100,100,100,.8); animation-delay: .2s; }
-        #pre-load .loader-inner .box:nth-child(3) { inset: 20%; z-index: 97; border-color: rgba(100,100,100,.6); animation-delay: .4s; }
-        #pre-load .loader-inner .box:nth-child(4) { inset: 10%; z-index: 96; border-color: rgba(100,100,100,.4); animation-delay: .6s; }
-        #pre-load .loader-inner .box:nth-child(5) { inset: 0; z-index: 95; border-color: rgba(100,100,100,.2); animation-delay: .8s; }
+#pre-load {
+  background: #000;
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999999;
+  opacity: 1; /* allow fade out */
+  transition: opacity 0.5s ease; /* smooth fade */
+}
+#pre-load .loader-inner {
+  --loader-background: linear-gradient(0deg, rgba(50,50,50,.2) 0%, rgba(100,100,100,.2) 100%);
+  position: relative;
+  height: 250px;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#pre-load .loader-inner .loader-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: color-change 2s infinite ease-in-out;
+  z-index: 999;
+}
+#pre-load .loader-inner .loader-logo svg {
+  width: 100%;
+  height: 100%;
+}
+#pre-load .loader-inner .box {
+  position: absolute;
+  background: var(--loader-background);
+  border-radius: 50%;
+  border-top: 1px solid rgb(100,100,100);
+  box-shadow: rgba(0,0,0,.3) 0 10px 10px 0;
+  backdrop-filter: blur(5px);
+  animation: ripple 2s infinite ease-in-out;
+}
+#pre-load .loader-inner .box:nth-child(1) { width: 25%; aspect-ratio: 1/1; z-index: 99; }
+#pre-load .loader-inner .box:nth-child(2) { inset: 30%; z-index: 98; border-color: rgba(100,100,100,.8); animation-delay: .2s; }
+#pre-load .loader-inner .box:nth-child(3) { inset: 20%; z-index: 97; border-color: rgba(100,100,100,.6); animation-delay: .4s; }
+#pre-load .loader-inner .box:nth-child(4) { inset: 0; z-index: 95; border-color: rgba(100,100,100,.2); animation-delay: .8s; }
 
 
         /* Animations */
@@ -618,19 +619,20 @@
     <body>
   <!-- Preloader -->
     <div id="pre-load" class="loader">
-      <div class="loader-inner">
-        <div class="loader-logo">
-          <svg viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M16.5 12L13 14.333V19L20 14.333V9.667L13 5V9.667L16.5 12Z" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-        </div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
-        <div class="box"></div>
+   <div class="loader-inner">
+      <div class="loader-logo">
+         <!-- Optional: your SVG logo -->
+         <svg viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+           <path fill-rule="evenodd" clip-rule="evenodd" d="M16.5 12L13 14.333V19L20 14.333V9.667L13 5V9.667L16.5 12Z" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+         </svg>
       </div>
-    </div>
+      <div class="box"></div>
+      <div class="box"></div>
+      <div class="box"></div>
+      <div class="box"></div>
+      <div class="box"></div>
+   </div>
+</div>
 
 
     <nav>
@@ -957,25 +959,26 @@
         });
     </script>
     <script>
-  // Get the loader element
   const loader = document.getElementById('pre-load');
 
-  // Fade out loader on page load
-  window.addEventListener('load', () => {
-    loader.style.opacity = '0';
-    loader.style.transition = 'opacity 0.5s ease';
-    setTimeout(() => loader.style.display = 'none', 500);
+  // Show loader for 2 seconds on page load
+  window.addEventListener('DOMContentLoaded', () => {
+    loader.style.display = 'flex';
+    setTimeout(() => {
+      loader.style.opacity = '0';
+      setTimeout(() => loader.style.display = 'none', 500);
+    }, 2000); // 2 seconds duration
   });
 
-  // Intercept all link clicks to show loader
+  // Show loader on all link clicks
   document.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', function(e) {
-      e.preventDefault(); // stop immediate navigation
+      e.preventDefault(); // prevent immediate navigation
       loader.style.display = 'flex';
       loader.style.opacity = '1';
       setTimeout(() => {
         window.location.href = this.href;
-      }, 1000); // 1 second delay before navigating
+      }, 2000); // 2 seconds loader before navigating
     });
   });
 </script>
@@ -983,4 +986,5 @@
 </body>
 
 </html>
+
 
