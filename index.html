@@ -957,14 +957,30 @@
         });
     </script>
     <script>
-  window.addEventListener('load', function() {
-    const loader = document.getElementById('pre-load');
+  // Get the loader element
+  const loader = document.getElementById('pre-load');
+
+  // Fade out loader on page load
+  window.addEventListener('load', () => {
     loader.style.opacity = '0';
     loader.style.transition = 'opacity 0.5s ease';
     setTimeout(() => loader.style.display = 'none', 500);
+  });
+
+  // Intercept all link clicks to show loader
+  document.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault(); // stop immediate navigation
+      loader.style.display = 'flex';
+      loader.style.opacity = '1';
+      setTimeout(() => {
+        window.location.href = this.href;
+      }, 1000); // 1 second delay before navigating
+    });
   });
 </script>
 
 </body>
 
 </html>
+
