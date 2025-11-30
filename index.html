@@ -113,6 +113,31 @@
         opacity:.7
     }
 }
+        @keyframes bobbing {
+  0%   { transform: translateY(0); }
+  25%  { transform: translateY(-20px); }
+  50%  { transform: translateY(0); }
+  75%  { transform: translateY(20px); }
+  100% { transform: translateY(0); }
+}
+
+#pre-load .loader-inner .box {
+  position: absolute;
+  background: var(--loader-background);
+  border-radius: 50%;
+  border-top: 1px solid rgb(100,100,100);
+  box-shadow: rgba(0,0,0,.3) 0 10px 10px 0;
+  backdrop-filter: blur(5px);
+  animation: bobbing 2s infinite ease-in-out;
+}
+
+/* Stagger the boxes so they move sequentially */
+#pre-load .loader-inner .box:nth-child(1) { animation-delay: 0s; }
+#pre-load .loader-inner .box:nth-child(2) { animation-delay: 0.2s; }
+#pre-load .loader-inner .box:nth-child(3) { animation-delay: 0.4s; }
+#pre-load .loader-inner .box:nth-child(4) { animation-delay: 0.6s; }
+#pre-load .loader-inner .box:nth-child(5) { animation-delay: 0.8s; }
+
  
         /* Animations */
         @keyframes fadeIn {
@@ -1020,24 +1045,27 @@
     <script>
   const loader = document.getElementById('pre-load');
 
-  // Show loader for 2 seconds on page load
+  // Always show loader on page load
   window.addEventListener('DOMContentLoaded', () => {
     loader.style.display = 'flex';
     setTimeout(() => {
       loader.style.opacity = '0';
       setTimeout(() => loader.style.display = 'none', 500);
-    }, 2000); // 2 seconds duration
+    }, 2000);
   });
 
-  // Show loader on all link clicks
+  // Show loader on all internal links
   document.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', function(e) {
-      e.preventDefault(); // prevent immediate navigation
-      loader.style.display = 'flex';
-      loader.style.opacity = '1';
-      setTimeout(() => {
-        window.location.href = this.href;
-      }, 2000); // 2 seconds loader before navigating
+      // Only for same-origin links
+      if(this.hostname === window.location.hostname){
+        e.preventDefault();
+        loader.style.display = 'flex';
+        loader.style.opacity = '1';
+        setTimeout(() => {
+          window.location.href = this.href;
+        }, 2000);
+      }
     });
   });
 </script>
@@ -1045,6 +1073,7 @@
 </body>
 
 </html>
+
 
 
 
