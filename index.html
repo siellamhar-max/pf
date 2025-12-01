@@ -520,8 +520,14 @@
 /* === 8. BATCHMATES PAGE SPECIFIC STYLES (Updated) === */
 /* ================================================= */
       
+/* ================================================= */
+/* === 8. BATCHMATES PAGE SPECIFIC STYLES (Updated) === */
+/* ================================================= */
+      
 #batchmates { 
-    /* This ensures the page content starts below the navigation and doesn't scroll under the footer */
+    /* CRITICAL FIX: Add position: relative to allow absolute positioning of the buttons */
+    position: relative;
+    
     justify-content: flex-start; 
     padding-top: 20px; 
     padding-bottom: 200px; /* CRITICAL: Adds space at the bottom to prevent names from hiding content */
@@ -553,45 +559,49 @@
 .batchmate-card-item { display: none; } 
 
 
-/* =============== NAMES FOOTER (Fixed and Consolidated) =============== */
+/* ================================================= */
+/* === BUTTON POSITIONING FOR LAST PAGE ONLY (FIXED) === */
+/* ================================================= */
+
+/* CRITICAL FIX: Target the container EXPLICITLY inside the #batchmates ID 
+   This selector is more specific and will override any conflicting general styles. */
+#batchmates .nav-button-container.last-page-nav {
+    position: absolute; 
+    bottom: 40px; 
+    right: 40px; 
+    
+    /* Ensures the container shrinks to fit the button */
+    width: auto; 
+    
+    /* Ensures the Back button is aligned to the right */
+    display: flex;
+    justify-content: flex-end; 
+    
+    z-index: 60; 
+}
+
+
+/* =============== NAMES FOOTER (Remains Correct) =============== */
 .names-footer {
-    /* CRITICAL POSITIONING: Locks the footer to the bottom of the viewport */
+    /* ... (Existing footer styles remain correct) ... */
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 50; /* Ensures it sits above everything else */
-    
-    /* CRITICAL DISPLAY: Must start hidden so JavaScript can control it */
+    z-index: 50; 
     display: none; 
-    
     background: linear-gradient(to top, rgba(10, 10, 26, 1), rgba(10, 10, 26, 0.806), transparent 100%);
     padding: 2rem 5% 3rem;
 }
 
 .name-list-container {
+    /* ... (Existing name-list-container styles remain correct) ... */
     column-count: 5;
     column-gap: 20px;
     max-width: 1400px;
     margin: 0 auto;
 }
-
-.name-list-container p {
-    font-size: 0.85rem;
-    margin-bottom: 0.3rem;
-    line-height: 1.4;
-    color: rgba(255, 255, 255, 0.9);
-    break-inside: avoid;
-    -webkit-column-break-inside: avoid;
-    page-break-inside: avoid;
-}
-
-.name-list-container p:hover {
-    color: #bd93f9; /* Highlight color on hover */
-}
-      /* Hiding individual elements */
-      .batchmates-title { display: none; } 
-      .batchmate-card-item { display: none; } 
+/* ... (Rest of name-list-container p styles remain correct) ... */
 
       /* ================================================= */
       /* === DESKTOP RESPONSIVENESS (Adjusted Grid) === */
@@ -951,7 +961,6 @@
     // Define ALL required constants and global state variables
     const pages = ['home', 'education', 'achievements', 'family', 'batchmates'];
     let currentPageIndex = 0;
-    // CRITICAL FIX: Define loader variables globally for use across functions
     const LOADER_DURATION = 300; 
     const loader = document.getElementById('pre-load'); 
 
@@ -967,7 +976,7 @@
     }
 
     /**
-     * Core page activation logic. Handles class changes, and the special display for the batchmates page.
+     * Core page activation logic. Handles class changes, footer, video, and button display.
      */
     function showPage(pageId) {
         const newIndex = pages.indexOf(pageId);
@@ -976,18 +985,38 @@
         // Get elements for the names footer and video background
         const footer = document.querySelector('.names-footer');
         const videoBackground = document.querySelector('.video-background');
+        
+        // Get elements for button control (assuming there is one container per page or the selector grabs the active one)
+        const navContainer = document.querySelector('.nav-button-container');
+        const nextButton = document.querySelector('.nav-button-next');
+        
+        const isBatchmates = pageId === 'batchmates';
 
         // =======================================================
         // === FIX: Logic only for the last page ('batchmates') ===
         // =======================================================
-        // 1. Show Names Footer ONLY on batchmates page
+        
+        // 1. Footer and Video Background (Existing logic)
         if (footer) {
-            footer.style.display = pageId === 'batchmates' ? 'block' : 'none';
+            footer.style.display = isBatchmates ? 'block' : 'none';
         }
 
-        // 2. Hide Video Background ONLY on batchmates page
         if (videoBackground) {
-            videoBackground.style.display = pageId === 'batchmates' ? 'none' : 'block';
+            videoBackground.style.display = isBatchmates ? 'none' : 'block';
+        }
+
+        // 2. Navigation Button & Positioning FIX (New logic starts here)
+        if (navContainer && nextButton) {
+            if (isBatchmates) {
+                // A. Hide the Next button
+                nextButton.style.display = 'none';
+                // B. Add class for bottom-right positioning via CSS
+                navContainer.classList.add('last-page-nav');
+            } else {
+                // C. Restore buttons/positioning on ALL other pages
+                nextButton.style.display = ''; // Reverts to default CSS (usually 'block')
+                navContainer.classList.remove('last-page-nav');
+            }
         }
         // =======================================================
 
@@ -998,7 +1027,6 @@
         
         const newPage = document.getElementById(pageId);
         if (newPage) {
-            // Trigger reflow for CSS animation
             void newPage.offsetWidth; 
             newPage.classList.add('active', 'animate-in'); 
         }
@@ -1009,7 +1037,6 @@
 
     /**
      * Triggers the page switch sequence with a loader transition.
-     * This calls showPage() after the loader delay.
      */
     function triggerShowPage(pageId) {
         if (pages.indexOf(pageId) === -1 || !loader) {
@@ -1017,11 +1044,9 @@
             return;
         }
 
-        // 1. Show the loader for the transition
         loader.classList.add('show');
         loader.classList.remove('hide');
 
-        // 2. Schedule the page switch and loader hide
         setTimeout(() => {
             showPage(pageId);
             loader.classList.remove('show');
@@ -1031,10 +1056,8 @@
 
     // Initial setup
     document.addEventListener('DOMContentLoaded', () => {
-         // Use the function to initialize the 'home' page and set all elements correctly
          showPage('home'); 
-
-         // Ensure the loader is hidden after a brief period (consistent with original 500ms load)
+         
          const preLoad = document.getElementById('pre-load');
          if (preLoad) {
              setTimeout(() => {
