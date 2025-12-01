@@ -952,50 +952,101 @@
     </div>
 
     <script>
-        const pages = ['home', 'education', 'achievements', 'family', 'batchmates'];
-        let currentPageIndex = 0;
-        
-        function updateNavActive() {
-            const pageId = pages[currentPageIndex];
-            document.querySelectorAll('nav a').forEach(link => {
-                link.classList.remove('nav-active');
-            });
-            document.getElementById(`nav-${pageId}`).classList.add('nav-active');
+    // Define ALL required constants and global state variables
+    const pages = ['home', 'education', 'achievements', 'family', 'batchmates'];
+    let currentPageIndex = 0;
+    // CRITICAL FIX: Define loader variables globally for use across functions
+    const LOADER_DURATION = 300; 
+    const loader = document.getElementById('pre-load'); 
+
+    function updateNavActive() {
+        const pageId = pages[currentPageIndex];
+        document.querySelectorAll('nav a').forEach(link => {
+            link.classList.remove('nav-active');
+        });
+        const activeLink = document.getElementById(`nav-${pageId}`);
+        if (activeLink) {
+             activeLink.classList.add('nav-active');
+        }
+    }
+
+    /**
+     * Core page activation logic. Handles class changes, and the special display for the batchmates page.
+     */
+    function showPage(pageId) {
+        const newIndex = pages.indexOf(pageId);
+        if (newIndex === -1) return; 
+
+        // Get elements for the names footer and video background
+        const footer = document.querySelector('.names-footer');
+        const videoBackground = document.querySelector('.video-background');
+
+        // =======================================================
+        // === FIX: Logic only for the last page ('batchmates') ===
+        // =======================================================
+        // 1. Show Names Footer ONLY on batchmates page
+        if (footer) {
+            footer.style.display = pageId === 'batchmates' ? 'block' : 'none';
         }
 
-        function triggerShowPage(pageId) {
-            const newIndex = pages.indexOf(pageId);
-            if (newIndex === -1) return; 
+        // 2. Hide Video Background ONLY on batchmates page
+        if (videoBackground) {
+            videoBackground.style.display = pageId === 'batchmates' ? 'none' : 'block';
+        }
+        // =======================================================
 
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            
-            const newPage = document.getElementById(pageId);
-            if (newPage) {
-                newPage.classList.add('active');
-            }
-            
-            currentPageIndex = newIndex;
-            updateNavActive();
+        // Remove 'active' and 'animate-in' from ALL pages
+        document.querySelectorAll('.page').forEach(page => {
+            page.classList.remove('active', 'animate-in'); 
+        });
+        
+        const newPage = document.getElementById(pageId);
+        if (newPage) {
+            // Trigger reflow for CSS animation
+            void newPage.offsetWidth; 
+            newPage.classList.add('active', 'animate-in'); 
         }
         
-        // Loader logic (remains the same)
-        window.addEventListener('load', () => {
-            const preLoad = document.getElementById('pre-load');
-            setTimeout(() => {
-                preLoad.classList.add('hide');
-            }, 500); // 0.5s fade out
-            
-            // Set initial active page and nav link
-            updateNavActive();
-        });
-        
-        // Initial setup
-        document.addEventListener('DOMContentLoaded', () => {
-             // Ensure the initial page is active
-             document.getElementById('home').classList.add('active');
-        });
-    </script>
+        currentPageIndex = newIndex;
+        updateNavActive();
+    }
+
+    /**
+     * Triggers the page switch sequence with a loader transition.
+     * This calls showPage() after the loader delay.
+     */
+    function triggerShowPage(pageId) {
+        if (pages.indexOf(pageId) === -1 || !loader) {
+            showPage(pageId);
+            return;
+        }
+
+        // 1. Show the loader for the transition
+        loader.classList.add('show');
+        loader.classList.remove('hide');
+
+        // 2. Schedule the page switch and loader hide
+        setTimeout(() => {
+            showPage(pageId);
+            loader.classList.remove('show');
+            loader.classList.add('hide');
+        }, LOADER_DURATION);
+    }
+
+    // Initial setup
+    document.addEventListener('DOMContentLoaded', () => {
+         // Use the function to initialize the 'home' page and set all elements correctly
+         showPage('home'); 
+
+         // Ensure the loader is hidden after a brief period (consistent with original 500ms load)
+         const preLoad = document.getElementById('pre-load');
+         if (preLoad) {
+             setTimeout(() => {
+                 preLoad.classList.add('hide');
+                 preLoad.classList.remove('show');
+             }, 500); 
+         }
+    });
+</script>
 </body>
 </html>
