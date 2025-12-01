@@ -628,12 +628,14 @@
           .family-description { font-size: 0.9rem; }
 
           /* BATCHMATES - Column layout for names on desktop */
-          .name-list-container {
-              flex-direction: row; 
-              justify-content: space-evenly;
-              /* REMOVED max-height to ensure all fit vertically */
-              column-count: 2; /* Automatically create 2 columns */
-          }
+.name-list-container {
+    /* FIX: Remove conflicting Flexbox properties (flex-direction, justify-content) */
+    
+    column-count: 5; /* Use 5 columns as defined in your working CSS */
+    column-gap: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
           .name-list-container p {
                break-inside: avoid-column; /* Prevent names from splitting across columns */
                width: auto; /* Allow column layout to manage width */
