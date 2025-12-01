@@ -525,12 +525,12 @@
 /* ================================================= */
       
 #batchmates { 
-    /* CRITICAL FIX: Add position: relative to allow absolute positioning of the buttons */
-    position: relative;
+    /* CRITICAL FIX: Ensures the absolute positioning of child elements (buttons) works correctly */
+    position: relative; 
     
     justify-content: flex-start; 
     padding-top: 20px; 
-    padding-bottom: 200px; /* CRITICAL: Adds space at the bottom to prevent names from hiding content */
+    padding-bottom: 200px; /* Space for the fixed names footer */
     
     /* --- REVEALED BACKGROUND --- */
     background: url('https://lh3.googleusercontent.com/pw/AP1GczOK_KMrr_GSw_AjCxfCnfa69UVJz46tjdBJe_sLi-ig28sMJck0ahoDbbGyBY5c4tHKGnxwqngW_1IWHDFukO1KpJxe3_OEYCUrSduNpBkI7tny1Lg=w2400'); 
@@ -538,6 +538,9 @@
     background-position: center;
     background-repeat: no-repeat;
     border-radius: 10px; 
+    
+    /* Ensure nothing is clipping the buttons */
+    overflow: hidden; /* Only include this if your general styles don't already define it */
 }
 
 #batchmates h1 {
@@ -549,41 +552,47 @@
     border-radius: 5px;
 }
 
-/* HIDE the group photo card */
-.group-photo-card {
-    display: none; 
-}
-
-/* Hiding individual elements */
+/* HIDE elements */
+.group-photo-card { display: none; } 
 .batchmates-title { display: none; } 
 .batchmate-card-item { display: none; } 
 
-
 /* ================================================= */
-/* === BUTTON POSITIONING FOR LAST PAGE ONLY (FIXED) === */
+/* === BUTTON POSITIONING FOR LAST PAGE ONLY (FINAL FIX) === */
 /* ================================================= */
 
-/* CRITICAL FIX: Target the container EXPLICITLY inside the #batchmates ID 
-   This selector is more specific and will override any conflicting general styles. */
+/* Uses ID + Class to guarantee these styles are applied */
 #batchmates .nav-button-container.last-page-nav {
-    position: absolute; 
-    bottom: 40px; 
-    right: 40px; 
+    /* Positioning */
+    position: absolute !important; 
+    bottom: 40px !important; 
+    right: 40px !important; 
+    left: auto !important; /* Forces it away from the left edge */
     
-    /* Ensures the container shrinks to fit the button */
-    width: auto; 
+    /* Layout Fix */
+    width: auto !important; /* CRITICAL: Prevents the container from stretching the full width */
+    max-width: 90%; 
     
-    /* Ensures the Back button is aligned to the right */
-    display: flex;
-    justify-content: flex-end; 
+    /* Alignment */
+    display: flex !important;
+    justify-content: flex-end !important; /* Pushes the remaining button to the right */
     
-    z-index: 60; 
+    z-index: 60 !important; 
+}
+
+/* Ensure the Next button is hidden (belt-and-suspenders approach) */
+#batchmates .nav-button-container.last-page-nav .nav-button-next {
+    display: none !important;
+}
+
+/* Ensure the Back button is explicitly shown */
+#batchmates .nav-button-container.last-page-nav .nav-button-back {
+    display: block !important;
 }
 
 
 /* =============== NAMES FOOTER (Remains Correct) =============== */
 .names-footer {
-    /* ... (Existing footer styles remain correct) ... */
     position: fixed;
     bottom: 0;
     left: 0;
@@ -595,12 +604,12 @@
 }
 
 .name-list-container {
-    /* ... (Existing name-list-container styles remain correct) ... */
     column-count: 5;
     column-gap: 20px;
     max-width: 1400px;
     margin: 0 auto;
 }
+/* ... (Rest of name-list-container p styles remain correct) ... */
 /* ... (Rest of name-list-container p styles remain correct) ... */
 
       /* ================================================= */
