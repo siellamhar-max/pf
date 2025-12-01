@@ -113,7 +113,7 @@
         .page-content-wrapper { -ms-overflow-style: none; scrollbar-width: none; }
 
         /* ================================================= */
-        /* === 2. NAVIGATION & BUTTONS (Unchanged) === */
+        /* === 2. NAVIGATION & BUTTONS (ADJUSTED FOR BOTTOM-RIGHT) === */
         /* ================================================= */
         nav a {
             color: #ffffff; text-decoration: none; font-size: 14px; 
@@ -136,7 +136,8 @@
             width: 100%; 
             max-width: 960px; 
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end; /* ***FIX: Align to bottom-right corner*** */
+            gap: 10px; /* ***ADD: Space between buttons*** */
             padding: 10px 0;
             flex-shrink: 0; 
             z-index: 1; 
@@ -161,13 +162,11 @@
         #home .nav-button-next:hover { background: #b11ab6; transform: translateY(-2px); opacity: 1; }
         
         /* Hide the back button on the first page */
-        #home .nav-button-container { justify-content: flex-end; }
+        /* The container is already flex-end, so only need to hide the button itself */
         #home .nav-button-container .nav-button-back { display: none; }
         
-        /* Specific alignment for batchmates page (only back button) */
-        #batchmates .nav-button-container {
-             justify-content: flex-start; 
-        }
+        /* Specific alignment for batchmates page - REMOVED override as default is now flex-end */
+        /* #batchmates .nav-button-container { justify-content: flex-start; } */
 
         /* ================================================= */
         /* === 3. LOADER & ANIMATIONS (Unchanged) === */
@@ -241,7 +240,7 @@
         }
 
         /* ================================================= */
-        /* === 4. HOME PAGE LAYOUT (Unchanged) === */
+        /* === 4. HOME PAGE LAYOUT (ADJUSTED FOR SIZE) === */
         /* ================================================= */
 
         #home { justify-content: space-between; align-items: center; padding-top: 20px; }
@@ -250,18 +249,20 @@
         @media (min-width: 768px) {
             .home-content { flex-direction: row; justify-content: center; align-items: flex-start; gap: 50px; }
         }
-        /* Profile Picture Frame & Text Bubble Styles */
+        /* Profile Picture Frame & Text Bubble Styles (ENLARGED) */
         .profile-frame { 
-            width: 280px; height: 280px; border: 3px solid #bf02c5; border-radius: 50%; 
+            width: 320px; /* INCREASED from 280px */
+            height: 320px; /* INCREASED from 280px */
+            border: 3px solid #bf02c5; border-radius: 50%; 
             display: flex; justify-content: center; align-items: center; box-shadow: 0 0 15px #b305b9; 
             flex-shrink: 0; overflow: hidden; position: relative; z-index: 2; 
         }
         .profile-frame img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-        /* Text Bubble Styling */
+        /* Text Bubble Styling (ENLARGED) */
         .text-bubble {
             background: rgba(158, 0, 145, 0.9); 
             border-radius: 15px;
-            padding: 25px; color: #ffffff; max-width: 600px; 
+            padding: 25px; color: #ffffff; max-width: 700px; /* INCREASED from 600px */
             box-shadow: 0 0 20px rgba(255, 4, 255, 0.5); 
             display: flex; flex-direction: column; flex-grow: 1; 
             position: relative; z-index: 2;
@@ -271,7 +272,7 @@
 
 
         /* ================================================= */
-        /* === 5. CARD LAYOUTS (Education/Achievements/Family) (Unchanged) === */
+        /* === 5. CARD LAYOUTS (Education/Achievements/Family) === */
         /* ================================================= */
 
         .card-container {
@@ -300,87 +301,72 @@
         .logo-frame-edu { width: 50px; height: 50px; border: 2px solid #555555; border-radius: 50%; overflow: hidden; flex-shrink: 0; margin-top: 5px; }
         .logo-frame-edu img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
 
- /* --- ACHIEVEMENTS SPECIFIC STYLES (GOLD ACCENTS) --- */
-.ach-card-item { 
-    background: #1c1c1c;
-    border-radius: 10px;
-    padding: 0;
-    text-align: left;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: transform 0.2s, box-shadow 0.2s;
-    border: 2px solid #FFD700; 
-    margin-left: auto;
-    margin-right: auto;
-    overflow: hidden;
-    width: 95%; 
-    /* FIX: Reduced max-width for mobile view from 320px to 300px */
-    max-width: 300px;
-}
-/* Media query for large screens for ACHIEVEMENTS */
-@media (min-width: 768px) {
-    .ach-card-item {
-        /* FIX: Reduced width from 23% to 22% to make cards slightly smaller and allow more space between them */
-        width: 22%; 
-        /* FIX: Reduced min-height from 250px to 240px */
-        min-height: 240px; 
-    }
-}
-.ach-card-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4); 
-}
+        /* --- ACHIEVEMENTS SPECIFIC STYLES (ADJUSTED FOR SCROLLING) --- */
+        .ach-card-item { 
+            background: #1c1c1c;
+            border-radius: 10px;
+            padding: 0;
+            text-align: left;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 2px solid #FFD700; 
+            margin-left: auto;
+            margin-right: auto;
+            overflow: hidden;
+            width: 95%; 
+            max-width: 300px;
+        }
 
-.ach-image-container {
-    width: 100%;
-    /* No change to aspect ratio 4/3 */
-    aspect-ratio: 4/3; 
-    overflow: hidden;
-    background: #3a3200;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.ach-image-container img {
-    width: 100%;
-    /* Slightly reduced image height to visually shrink the content area */
-    height: 90%; 
-    object-fit: contain; 
-}
+        .ach-card-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4); 
+        }
 
-.ach-text-content {
-    /* Reduced padding from 15px to 12px to shrink the text area */
-    padding: 12px;
-    color: #b0b0b0;
-    flex-grow: 1;
-    width: 100%;
-}
+        .ach-image-container {
+            width: 100%;
+            aspect-ratio: 16/10; /* REDUCED HEIGHT from 4/3 */
+            overflow: hidden;
+            background: #3a3200;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .ach-image-container img {
+            width: 100%;
+            height: 90%; 
+            object-fit: contain; 
+        }
 
-.ach-level { 
-    font-weight: 700; 
-    color: #FFD700; 
-    /* Reduced font size slightly */
-    font-size: 1.0rem; 
-    margin-bottom: 5px; 
-    text-align: left; 
-}
-.ach-name { 
-    /* Reduced font size slightly */
-    font-size: 0.85rem; 
-    color: #b0b0b0; 
-    line-height: 1.4; 
-    text-align: left; 
-}
+        .ach-text-content {
+            padding: 8px; /* REDUCED from 12px */
+            color: #b0b0b0;
+            flex-grow: 1;
+            width: 100%;
+        }
+
+        .ach-level { 
+            font-weight: 700; 
+            color: #FFD700; 
+            font-size: 0.9rem; /* REDUCED from 1.0rem */
+            margin-bottom: 3px; /* REDUCED from 5px */
+            text-align: left; 
+        }
+        .ach-name { 
+            font-size: 0.8rem; /* REDUCED from 0.85rem */
+            color: #b0b0b0; 
+            line-height: 1.4; 
+            text-align: left; 
+        }
         
-          /* --- FAMILY PAGE SPECIFIC STYLES (BLUE/AQUA ACCENTS) --- */
+        /* --- FAMILY PAGE SPECIFIC STYLES --- */
         #family h1 { 
             color: #ffffff;
             margin-bottom: 20px;
             font-size: 32px;
         }
-        /* Removed card container margin-bottom since page-content-wrapper padding handles spacing */
         
         .family-card-item {
             background: #1c1c1c;
@@ -435,61 +421,106 @@
             line-height: 1.4;
         } 
 
-        /* --- BATCHMATES PAGE SPECIFIC STYLES (Final size adjustment) --- */
+        /* --- BATCHMATES PAGE SPECIFIC STYLES (REVISED FOR MAX SPACE) --- */
         #batchmates { 
-             justify-content: center; 
+             justify-content: flex-start; /* Align content to top */
+        }
+        #batchmates .page-content-wrapper { 
+            justify-content: flex-start; 
         }
         #batchmates h1 {
             color: #bd93f9;
             margin-top: 5px; 
             margin-bottom: 10px;
         }
-
-        /* Group Photo Card (Smallest version) */
-        .group-photo-card {
-            width: 90%; 
-            max-width: 500px; 
-            margin: 8px 0; 
-            padding: 10px; 
-            background: rgba(189, 147, 249, 0.1); 
-            border: 2px solid #bd93f9;
-            border-radius: 10px; 
-            box-shadow: 0 0 15px rgba(189, 147, 249, 0.3); 
-            text-align: center;
-            flex-shrink: 0;
+        
+        /* New structure to manage photo and description blocks */
+        #batchmates-main-content {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 800px; /* Use more horizontal space */
+            flex-grow: 1; /* Allow it to take up available vertical space */
+            gap: 15px; /* Space between photo and description */
         }
 
-        .group-photo-card .photo-container {
+        .batchmates-photo-block {
             width: 100%;
-            aspect-ratio: 3 / 2; 
+            flex-shrink: 0; /* Should not shrink */
+            border: 2px solid #bd93f9;
+            border-radius: 10px; 
+            padding: 10px;
+            background: rgba(189, 147, 249, 0.1); 
+            box-shadow: 0 0 15px rgba(189, 147, 249, 0.3); 
+        }
+        
+        .batchmates-photo-block .photo-container {
+            width: 100%;
+            aspect-ratio: 16/9; /* Widescreen ratio for a large group photo */
             overflow: hidden;
             border-radius: 6px; 
             border: 1px solid #ffffff; 
             margin-bottom: 8px; 
         }
 
-        .group-photo-card .photo-container img {
+        .batchmates-photo-block .photo-container img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             object-position: center;
         }
-        
-        .group-photo-card .card-text {
+
+        .batchmates-photo-block .card-text {
             color: #ffffff;
-            font-size: 0.9rem; 
+            font-size: 1.0rem; 
             font-weight: 600;
+            text-align: center;
         }
-        
+
+        /* Description block should fill the remaining space (MAXIMIZED SPACE) */
+        .batchmates-description-block {
+            flex-grow: 1; /* Key to maximizing space */
+            padding: 15px;
+            background: rgba(189, 147, 249, 0.15); 
+            border-radius: 10px;
+            border: 1px solid #bd93f9;
+            overflow-y: auto; /* Allow scrolling if description is too long */
+            min-height: 100px; /* Ensure a minimum visible area */
+        }
+
+        .batchmates-description-block h2 {
+            color: #bd93f9;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        .batchmates-description-block p {
+            color: #f0f0f0;
+            margin-bottom: 10px;
+            line-height: 1.5;
+            font-size: 1.0rem;
+        }
+
+        /* Remove the old card styles for group photo */
+        .group-photo-card { display: none; } 
         /* Hiding individual elements */
         .batchmates-title { display: none; } 
         .batchmate-card-item { display: none; } 
-
+        
         /* ================================================= */
-        /* === DESKTOP RESPONSIVENESS (Unchanged) === */
+        /* === DESKTOP RESPONSIVENESS === */
         /* ================================================= */
         @media (min-width: 768px) {
             .page-content-wrapper { padding: 10px 0; }
+
+            /* HOME PAGE */
+            .profile-frame { 
+                width: 320px; 
+                height: 320px;
+            }
+            .text-bubble {
+                 max-width: 700px;
+            }
 
             /* EDUCATION - 5 per row */
             .edu-card-item { width: 18%; min-height: 250px; padding: 10px 5px; } 
@@ -497,10 +528,11 @@
             .edu-name { font-size: 0.85rem; }
             .logo-frame-edu { width: 70px; height: 70px; }
 
-            /* ACHIEVEMENTS - 5 per row */
+            /* ACHIEVEMENTS - 5 per row (Adjusted size) */
             .ach-card-item { 
                 width: 19%; 
-                max-height: 170px; 
+                min-height: 200px; /* New minimum to fit content without scroll */
+                max-height: 250px; 
                 flex-direction: column; 
                 justify-content: space-between;
                 padding: 5px;
@@ -514,11 +546,11 @@
             .family-card-item { width: 31%; max-height: 400px; }
             .family-title { font-size: 1.1rem; }
             .family-description { font-size: 0.9rem; }
-
-            /* BATCHMATES - Only large central group card */
-            .group-photo-card { max-width: 600px; } 
-            .group-photo-card .card-text { font-size: 1.0rem; } 
-            #batchmates .card-container { display: none; } 
+            
+            /* BATCHMATES */
+            #batchmates-main-content {
+                max-width: 900px;
+            }
         }
     </style>
 </head>
@@ -563,7 +595,7 @@
             <div class="profile-frame">
                 <img src="https://lh3.googleusercontent.com/pw/AP1GczPxyex_ZM1HnjC28nQjESOUETZqBjzP-5ysIp5BUaojAtn7iUmIXTOpT1xOUNXW_7F85CfCLn4dASzc--Wuc2BvqdT_zF8S54VkQH9WBJ0iYfFt-co=w2400"
                     alt="Profile Picture"
-                    onerror="this.onerror=null; this.src='https://placehold.co/280x280/333333/FFFFFF?text=Shiela+Photo';">
+                    onerror="this.onerror=null; this.src='https://placehold.co/320x320/333333/FFFFFF?text=Shiela+Photo';">
             </div>
 
             <div class="text-bubble">
@@ -713,20 +745,21 @@
         <h1>MY BATCHMATES</h1>
         <div class="page-content-wrapper animate-in">
             
-            <div class="group-photo-card">
-                <div class="photo-container">
-                    <img src="590915151_1830601177821669_7819919037465267227_n.jpg" 
-                        alt="Group Photo of CITCS 1B - Group B Batchmates" 
-                        onerror="this.onerror=null; this.src='https://placehold.co/1000x562/A020F0/FFFFFF?text=Group+Photo+Here+(3:2)';">
+            <div id="batchmates-main-content">
+                <div class="batchmates-photo-block">
+                    <div class="photo-container">
+                        <img src="https://placehold.co/1000x562/A020F0/FFFFFF?text=Group+Photo+Here+(16:9)" 
+                            alt="Group Photo of Batchmates" 
+                            onerror="this.onerror=null; this.src='https://placehold.co/1000x562/A020F0/FFFFFF?text=Group+Photo+Here+(16:9)';">
+                    </div>
+                    <div class="card-text">BSIT - Web Technology Batch 2029 - The Future Web Developers</div>
                 </div>
-                <div class="card-text">PATIbayanan - CITCS 1B - GROUP B</div>
-            </div>
-            
-            <div class="group-photo-card">
-                <div class="card-text">
-                    **Batchmates (CITCS 1B - Group B):**
-                    <br>
-                    AGUILAR, STEPHEN NASH, AGUSTIN, JHON RUMEY, ALIÑETE, ELMAR, BAL-UT, SHAWN MICHAEL, BALFESL, JOHN PATRICK, BANGOCAN, CLARENCE JAMES, BANNAAN, JUXINN, BARIUACHA, JP GREY, BANNAYA, JAMES MAVERICK, BAGUILE, PATRICK, CAOILI, JAMES CHRISTIAN, CARIÑO, CHAREYL, CARAL, ARTHUR REY, CENIAS, ERWIN ANGELO, CLAVERIA, MARK ANJO, DAMASO, ROBERT EMMANUEL, DELIA MASA, DIO, EMILIO, KARL ALDRINNE, ENIMUOC, JAIRON, HAGGINGWING, ABRAHAM, FERNANDEZ, RALPH MICHAEL, GAUNINGAN, LYMAN DRAKE, GAUNINGAN, MARK JULIAN, GININO, ARION KENT, GONZALES, ACE, HILARBAL, JAYMAR, MIRA, RUSSEL REINHARD, MURILLO, RAMON, NATAWNAN, KENNETH, OPIANA, WYETH COZZE, PICKLEY, FREIH UMMANI, PECOY, DENMARK, PUMILON, JOHN ZEDRICK, PUNDOG, RAMY, SICADANAY, RIDER, TENGAY, SHIELA MAR, UCCOL, ISAIAH CRISTA, LIMBOC, MARSEN ILIN.
+                
+                <div class="batchmates-description-block">
+                    <h2>A Note to My Peers</h2>
+                    <p>To my incredible batchmates, thank you for making the journey through college an unforgettable one. We started as individuals with diverse dreams and have grown into a unit, supporting each other through every code debug, late-night study session, and project deadline. The knowledge we've gained and the bonds we've forged are the true achievements of these years. Let's go out there and build the future of the web, together!</p>
+                    <p>I wish you all the best in your careers. May your code always compile on the first try and your designs always be responsive!</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                 </div>
             </div>
             
