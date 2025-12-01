@@ -516,61 +516,55 @@
             line-height: 1.4;
             flex-grow: 1; 
         } 
-      /* ================================================= */
-      /* === 8. BATCHMATES PAGE SPECIFIC STYLES (Updated) === */
-      /* ================================================= */
+     /* ================================================= */
+/* === 8. BATCHMATES PAGE SPECIFIC STYLES (Updated) === */
+/* ================================================= */
       
-      #batchmates { 
-            justify-content: flex-start; /* Align content to top for list */
-            /* --- REVEALED BACKGROUND --- */
-            background: url('https://lh3.googleusercontent.com/pw/AP1GczOK_KMrr_GSw_AjCxfCnfa69UVJz46tjdBJe_sLi-ig28sMJck0ahoDbbGyBY5c4tHKGnxwqngW_1IWHDFukO1KpJxe3_OEYCUrSduNpBkI7tny1Lg=w2400'); 
-            background-size: cover; 
-            background-position: center;
-            background-repeat: no-repeat;
-            border-radius: 10px; 
-            padding-top: 20px; /* Add padding to the top */
-            /* --------------------------- */
-      }
-      #batchmates h1 {
-            color: #bd93f9;
-            margin-top: 0; 
-            margin-bottom: 20px;
-            /* Ensure title is visible over background */
-            background: rgba(10, 10, 10, 0.7); 
-            padding: 5px 10px;
-            border-radius: 5px;
-      }
+#batchmates { 
+    /* This ensures the page content starts below the navigation and doesn't scroll under the footer */
+    justify-content: flex-start; 
+    padding-top: 20px; 
+    padding-bottom: 200px; /* CRITICAL: Adds space at the bottom to prevent names from hiding content */
+    
+    /* --- REVEALED BACKGROUND --- */
+    background: url('https://lh3.googleusercontent.com/pw/AP1GczOK_KMrr_GSw_AjCxfCnfa69UVJz46tjdBJe_sLi-ig28sMJck0ahoDbbGyBY5c4tHKGnxwqngW_1IWHDFukO1KpJxe3_OEYCUrSduNpBkI7tny1Lg=w2400'); 
+    background-size: cover; 
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 10px; 
+}
 
-      /* HIDE the group photo card */
-      .group-photo-card {
-            display: none; 
-      }
-      
-      /* =============== NAMES FOOTER =============== */
+#batchmates h1 {
+    color: #bd93f9;
+    margin-top: 0; 
+    margin-bottom: 20px;
+    background: rgba(10, 10, 10, 0.7); 
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+/* HIDE the group photo card */
+.group-photo-card {
+    display: none; 
+}
+
+/* Hiding individual elements */
+.batchmates-title { display: none; } 
+.batchmate-card-item { display: none; } 
+
+
+/* =============== NAMES FOOTER (Fixed and Consolidated) =============== */
 .names-footer {
+    /* CRITICAL POSITIONING: Locks the footer to the bottom of the viewport */
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 50;
-    background: linear-gradient(to top, rgba(10, 10, 26, 1), rgba(10, 10, 26, 0.806), transparent 100%);
-    padding: 2rem 5% 3rem;
-}
-
-.name-list-container {
-    column-count: 5;
-    column-gap: 20px;
-    max-width: 1400px;
-    margin: 0 auto;
-}
-
-/* =============== NAMES FOOTER =============== */
-.names-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 50;
+    z-index: 50; /* Ensures it sits above everything else */
+    
+    /* CRITICAL DISPLAY: Must start hidden so JavaScript can control it */
+    display: none; 
+    
     background: linear-gradient(to top, rgba(10, 10, 26, 1), rgba(10, 10, 26, 0.806), transparent 100%);
     padding: 2rem 5% 3rem;
 }
@@ -591,10 +585,10 @@
     -webkit-column-break-inside: avoid;
     page-break-inside: avoid;
 }
-      .name-list-container p:hover {
-            color: #bd93f9; /* Highlight color on hover */
-      }
 
+.name-list-container p:hover {
+    color: #bd93f9; /* Highlight color on hover */
+}
       /* Hiding individual elements */
       .batchmates-title { display: none; } 
       .batchmate-card-item { display: none; } 
